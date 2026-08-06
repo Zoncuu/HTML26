@@ -4,8 +4,13 @@ body {
 
 h1 {
     color: dimgray;
+    text-decoration: none;
 }
 
 h1:hover {
     color: black;
+}
+
+footer {
+    color: darkgray;
 }
