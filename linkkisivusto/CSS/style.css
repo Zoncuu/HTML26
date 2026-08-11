@@ -23,3 +23,16 @@ p {
 .yhteys {
     text-align: center;
 }
+
+.kuvagalleria {
+    background-color: #c3f1ff;
+    text-align: center;
+}
+
+.kuvagalleria_main {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
