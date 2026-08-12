@@ -3,11 +3,31 @@ body {
     font-size: 14px;
 }
 
+main {
+    background-color: #ffefd0;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    width: 80%;
+    padding: 20px;
+    margin: auto;
+
+    transition: 0.3s;
+}
+main:hover {
+    background-color:#ffd98e;
+}
+
 h1 {
     color: #333;
-    font-size: 2em;
+    font-size: 2.5em;
     font-family: Arial, sans-serif;
     text-align: center;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 5px;
+    margin: 20px auto;
+    background-color: #ffefd0;
 }
 
 h2, h3 {
@@ -19,9 +39,54 @@ h2, h3 {
 .tuoli {
     background-color: #c5c5c5;
     border: 2px solid #333;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     margin: 20px auto;
     max-width: 300px;
 }
 
+table {
+    background-color: #e9e9e9;
+    text-align: center;
+    width: 95%;
+    border-collapse: collapse;
+    margin: auto;
+    border: 2px solid #333;
+}
+
+caption {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: Arial, sans-serif;
+    text-decoration: underline;
+}
+
+thead {
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    th {
+        padding: 5px;
+    }
+    background-color: #636363;
+    color:gold
+}
+
+tfoot {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+
+.footertext {
+    text-align: left;
+    font-weight: bold;
+}
+
+.footervalue {
+
+}
+
+footer {
+    text-align: center;
+}
