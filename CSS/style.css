@@ -83,13 +83,13 @@ button { color: inherit; }
 .brand-mark {
     display: grid;
     place-items: center;
-    width: 42px;
+    width: 72px;
     height: 42px;
     border: 1px solid rgba(96, 165, 250, 0.45);
     border-radius: 12px;
     background: linear-gradient(145deg, rgba(59, 130, 246, 0.22), rgba(10, 23, 40, 0.6));
     color: var(--blue-bright);
-    font-size: 0.8rem;
+    font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.08em;
 }
