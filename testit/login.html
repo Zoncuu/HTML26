@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekisteröityminen</title>
+</head>
+<body>
+    <!--CSS-->
+    <style>
+        h1 {
+            font-size: 28px;
+            font-family: Arial, Helvetica, sans-serif;
+            color: rgb(47, 47, 47);
+        }
+        label,
+        button {
+            display: block;
+            margin-top: 10px;
+        }
+        input,
+        textarea,
+        fieldset {
+            background-color: #f3f5ff;
+            width: 50%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        textarea {
+            min-height: 100px;
+        }
+    </style>
+
+    <h1>Rekisteröityminen</h1>
+
+    <!--LOMAKE-->
+    <form>
+        <!--TEXT-->
+        <label for="name">Nimi:</label>
+        <input 
+            id="name" 
+            name="nimi" 
+            type="text" 
+            required
+        >
+
+        <!--EMAIL-->
+        <label for="email">Sähköposti:</label>
+        <input 
+            id="email" 
+            name="sahkoposti" 
+            type="email" 
+            placeholder="sähköposti@esimerkki.fi"
+            required
+        >
+
+        <!--PASSWORD-->
+        <label for="password">Salasana:</label>
+        <input 
+            id="password" 
+            name="salasana" 
+            type="password"
+            required
+        >
+        <!--PASSWORD AGAIN-->
+        <label for="password2">Salasana uudelleen:</label>
+        <input 
+            id="password2" 
+            name="salasana_uudelleen" 
+            type="password"
+            required
+        >
+
+        <!--DATE OF BIRTH-->
+        <label for="birthdate">Syntymäaika:</label>
+        <input 
+            id="birthdate" 
+            name="syntyma-aika" 
+            type="date" 
+            required
+        >
+
+        <!--ADDITIONAL INFORMATION-->
+        <label for="additional_information">Lisätietoja:</label>
+        <textarea
+            id="additional_information" 
+            name="Lisatiedot" 
+            type="text" 
+            placeholder="(valinnainen)"
+        ></textarea>
+
+        <!--CHECKBOX-->
+        <fieldset>
+            <legend>Käyttöehdot</legend>
+            <label>Hyväksyn, että tietoni voidaan myydä rikollisjärjestöille.</label>
+            <input 
+                type="checkbox" 
+                name="ehdot" 
+                required
+            >
+        </fieldset>
+    </form>
+</body>
+</html>
