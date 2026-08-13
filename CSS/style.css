@@ -224,7 +224,7 @@ button { color: inherit; }
 .window-bar i { width: 7px; height: 7px; border-radius: 50%; background: #283445; }
 .window-bar span { margin-left: 7px; }
 .code-window pre { margin: 0; padding: 23px 20px 27px; overflow: auto; color: var(--grey-100); font: 0.73rem/1.8 ui-monospace, SFMono-Regular, Menlo, monospace; }
-.code-muted { color: #526076; }.code-blue { color: #7db2ff; }.code-cyan { color: var(--cyan); }.code-green { color: #86efac; }
+.code-muted { color: #526076; }.code-blue { color: #7db2ff; }.code-cyan { color: var(--cyan); }.code-green { color: #86efac; }.code-purple { color: #c084fc; }.code-yellow { color: #facc15; }
 .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
 .panel-stats div { display: flex; flex-direction: column; align-items: center; padding: 13px 5px 4px; border-right: 1px solid var(--line); }
 .panel-stats div:last-child { border: 0; }
