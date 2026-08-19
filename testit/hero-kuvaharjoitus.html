@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero-kuva harjoitus</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="../main/images/zoncuu-profile.png">
+</head>
+<body>
+    <style>
+        main {
+            text-align: center;
+        }
+    </style>
+    
+    <h1>Hero-kuva harjoitus</h1>
+
+    <main>
+        <picture>
+            <source
+                media="(min-width: 1200px)"
+                srcset="media/huge.png">
+            <source
+                media="(min-width: 800px)"
+                srcset="media/medium.png">
+            <img src="media/small.png" alt="Harjoituskuva, millä testataan eri kuvakokoja picture -elementissä">
+        </picture>
+    </main>
+
+    <br>
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/"
+            target="_blank">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

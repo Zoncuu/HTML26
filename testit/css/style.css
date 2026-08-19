@@ -90,3 +90,16 @@ tfoot {
 footer {
     text-align: center;
 }
+
+picture {
+    display: block;
+    width: 100%;
+}
+
+picture img {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    margin: 0 auto;
+}
