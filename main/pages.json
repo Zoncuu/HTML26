@@ -1,0 +1,87 @@
+[
+    {
+        "title": "Harjoitusten pääsivu",
+        "group": "pinja",
+        "path": "pinja-harjoitukset/index.html"
+    },
+    {
+        "title": "Tehtävät 1-3",
+        "group": "pinja",
+        "path": "pinja-harjoitukset/pracc1-3.html"
+    },
+    {
+        "title": "Audioharjoitus",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/audioharjoitus.html"
+    },
+    {
+        "title": "Hero-kuva harjoitus",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/hero-kuvaharjoitus.html"
+    },
+    {
+        "title": "iframe harjoitus",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/iframeharjoitus.html"
+    },
+    {
+        "title": "Hei Maailma",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/index.html"
+    },
+    {
+        "title": "Joel Tyni",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/joeltyni.html"
+    },
+    {
+        "title": "Kuvaharjoittelu",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/kuvaharjoittelu.html"
+    },
+    {
+        "title": "Lempi peli",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/lempi_peli.html"
+    },
+    {
+        "title": "Linkkisivusto",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/linkkisivustodemo/index.html"
+    },
+    {
+        "title": "Kuvagalleria",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/linkkisivustodemo/kuvagalleria.html"
+    },
+    {
+        "title": "Minusta",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/linkkisivustodemo/minusta.html"
+    },
+    {
+        "title": "Yhteys",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/linkkisivustodemo/yhteys.html"
+    },
+    {
+        "title": "Rekisteröityminen",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/login.html"
+    },
+    {
+        "title": "Tuolit",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/rakenna_kortti.html"
+    },
+    {
+        "title": "Videoharjoitus",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/videoharjoitus.html"
+    },
+    {
+        "title": "Yhteydenottolomake",
+        "group": "tunti",
+        "path": "tunti-harjoitukset/yhteydenottolomake.html"
+    }
+]

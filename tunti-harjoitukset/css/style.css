@@ -103,3 +103,8 @@ picture img {
     height: auto;
     margin: 0 auto;
 }
+
+iframe {
+    display: block;
+    margin: auto;
+}

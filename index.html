@@ -13,11 +13,11 @@
     >
     <meta
         name="theme-color"
-        content="#07111f"
+        content="#080c0e"
     >
 
     <!--TITLE-->
-    <title>HTML26 | Ohjelmointikurssi</title>
+    <title>HTML26 | Ohjelmointi</title>
 
     <!--ICON-->
     <link
@@ -28,7 +28,7 @@
     <!--CSS-->
     <link
         rel="stylesheet"
-        href="CSS/style.css?v=2"
+        href="CSS/style.css?v=7"
     >
 
     <!--JAVASCRIPT-->
@@ -37,7 +37,7 @@
         defer
     ></script>
 </head>
-<body>
+<body id="alku">
     <!--SKIP LINK-->
     <a
         class="skip-link"
@@ -47,28 +47,53 @@
     </a>
 
     <!--HEADER-->
-    <header
-        class="site-header"
-        id="alku"
-    >
-        <!--BRAND-->
-        <a
-            class="brand"
-            href="#alku"
-            aria-label="HTML26 – etusivu"
-        >
-            <span
-                class="brand-mark"
-                aria-hidden="true"
-            >
-                Zoncuu
-            </span>
+    <header class="site-header">
+        <!--HEADER IDENTITY-->
+        <div class="header-identity">
+            <!--BRAND-->
+            <div class="brand">
+                <a
+                    class="brand-mark"
+                    href="https://github.com/Zoncuu/HTML26"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Avaa HTML26 GitHub-repository"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C6.422 18.07 5.633 17.7 5.633 17.7c-1.087-.744.083-.729.083-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297 24 5.67 18.627.297 12 .297Z"
+                        ></path>
+                    </svg>
+                </a>
 
-            <span class="brand-copy">
-                <strong>HTML26</strong>
-                <small>Syksy 2026</small>
-            </span>
-        </a>
+                <a
+                    class="brand-copy"
+                    href="#alku"
+                    aria-label="HTML26 – etusivu"
+                >
+                    <strong>HTML26</strong>
+                    <small>Zoncuu / Joel Tyni</small>
+                </a>
+            </div>
+
+            <!--SCHOOL IDENTITY-->
+            <a
+                class="school-lockup"
+                href="https://www.keuda.fi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Avaa Keudan verkkosivut"
+            >
+                <img
+                    src="main/images/Keuda_logo.png"
+                    alt="Keuda"
+                >
+                <span>Tieto- ja viestintätekniikka, Ohjelmistokehittäjä</span>
+            </a>
+        </div>
 
         <!--MOBILE MENU BUTTON-->
         <button
@@ -91,8 +116,8 @@
             aria-label="Päävalikko"
         >
             <a
-                class="is-active"
                 href="#alku"
+                aria-current="page"
             >
                 Etusivu
             </a>
@@ -124,17 +149,16 @@
             <div class="hero-content">
                 <p class="eyebrow">
                     <span aria-hidden="true"></span>
-                    Ohjelmointikurssi · Syksy 2026
+                    Keuda · Ohjelmointikurssi · Syksy 2026
                 </p>
 
                 <h1 id="hero-title">
-                    Rakennan verkkoa<br>
-                    <span>yksi harjoitus kerrallaan.</span>
+                    <span class="hero-title-primary">Ohjelmointi</span>
+                    <span class="hero-title-secondary">- Nettisivut</span>
                 </h1>
 
                 <p class="hero-lead">
-                    Tämä sivusto kokoaa yhteen Joel Tynin HTML-, CSS- ja JavaScript-harjoitukset.
-                    Tutustu projekteihin, kokeiluihin ja kurssin aikana syntyvään kehitykseen.
+                    Tältä sivulta pääset kätevästi navigoimaan ohjelmointikurssin kaikkiin harjoitustehtäviini ja projekteihini.
                 </p>
 
                 <!--HERO BUTTONS-->
@@ -153,6 +177,22 @@
                         Kurssin teknologiat
                     </a>
                 </div>
+
+                <!--COURSE COORDINATES-->
+                <dl class="course-coordinates">
+                    <div>
+                        <dt>Koulu</dt>
+                        <dd>Keuda</dd>
+                    </div>
+                    <div>
+                        <dt>Opiskelija</dt>
+                        <dd>Joel Tyni</dd>
+                    </div>
+                    <div>
+                        <dt>GitHub</dt>
+                        <dd>Zoncuu</dd>
+                    </div>
+                </dl>
             </div>
 
             <!--COURSE SUMMARY-->
@@ -162,11 +202,21 @@
             >
                 <!--STATUS-->
                 <div class="panel-topline">
-                    <span class="status">
-                        <i aria-hidden="true"></i>
-                        Aktiivinen kurssi
-                    </span>
-                    <span>2026</span>
+                    <span>Ohjelmointikurssi</span>
+                    <span>Syksy 2026</span>
+                </div>
+
+                <!--SCHOOL PANEL-->
+                <div class="school-panel">
+                    <div>
+                        <span>Opiskelupaikka</span>
+                        <strong>Tieto- ja viestintätekniikka, Kerava</strong>
+                    </div>
+
+                    <img
+                        src="main/images/Keuda_logo.png"
+                        alt="Keuda"
+                    >
                 </div>
 
                 <!--CODE WINDOW-->
@@ -181,9 +231,9 @@
                         <span>index.html</span>
                     </div>
 
-                    <pre><code><span class="code-muted">&lt;!-- Oppimalla tekemään --&gt;</span>
-<span class="code-blue">&lt;main</span> <span class="code-cyan">class</span>=<span class="code-green">"Syksy 2026"</span><span class="code-blue">&gt;</span>
-  <span class="code-blue">&lt;h1&gt;</span><span class="code-purple">Zoncuu</span> / <span class="code-yellow">Joel Tyni</span><span class="code-blue">&lt;/h1&gt;</span>
+                    <pre><code><span class="code-muted">&lt;!-- Keuda / HTML26 --&gt;</span>
+<span class="code-blue">&lt;main</span> <span class="code-cyan">data-student</span>=<span class="code-green">"zoncuu"</span><span class="code-blue">&gt;</span>
+  <span class="code-blue">&lt;h1&gt;</span><span class="code-purple">Joelin</span> <span class="code-yellow">harjoitukset</span><span class="code-blue">&lt;/h1&gt;</span>
   <span class="code-blue">&lt;p&gt;</span>HTML · CSS · JavaScript<span class="code-blue">&lt;/p&gt;</span>
 <span class="code-blue">&lt;/main&gt;</span></code></pre>
                 </div>
@@ -195,12 +245,12 @@
                         <span>Teknologiaa</span>
                     </div>
                     <div>
-                        <strong id="page-count">13</strong>
+                        <strong id="page-count">—</strong>
                         <span>Harjoitussivua</span>
                     </div>
                     <div>
-                        <strong>∞</strong>
-                        <span>Opittavaa</span>
+                        <strong>2026</strong>
+                        <span>Syyslukukausi</span>
                     </div>
                 </div>
             </aside>
@@ -217,109 +267,79 @@
                 <div>
                     <p class="eyebrow">
                         <span aria-hidden="true"></span>
-                        Valitut kokonaisuudet
+                        Repositoryn sisältö
                     </p>
                     <h2 id="projects-title">Harjoitukset ja projektit</h2>
                 </div>
 
                 <p>
-                    Kurssin tehtävät, pienet kokeilut ja laajemmat sivukokonaisuudet yhdessä paikassa.
+                    Täältä löytyvät tunneilla ja tehtävänannoissa tehdyt harjoitukset sekä mahdolliset myöhemmät projektit.
                 </p>
             </div>
 
             <!--PROJECT CARDS-->
             <div class="project-grid">
-                <!--HTML EXERCISES-->
-                <article class="project-card featured">
+                <!--LESSON EXERCISES-->
+                <article class="project-card">
                     <div class="card-number">01</div>
 
                     <div class="card-content">
-                        <span class="card-label">Harjoituskokonaisuus</span>
-                        <h3>HTML-harjoitukset</h3>
+                        <span class="card-label">Kurssin harjoitukset</span>
+                        <h3>Tunti harjoitukset</h3>
                         <p>
-                            HTML:n perusteita, sivurakenteita ja ensimmäisiä käytännön tehtäviä.
+                            Oppitunneilla tehdyt HTML-, CSS- ja JavaScript-harjoitukset.
                         </p>
-
-                        <ul
-                            class="tag-list"
-                            aria-label="Teknologiat"
-                        >
-                            <li>HTML</li>
-                            <li>Rakenne</li>
-                            <li>Perusteet</li>
-                        </ul>
                     </div>
 
                     <a
                         class="card-link"
-                        href="harjoitukset/index.html"
-                        aria-label="Avaa HTML-harjoitukset"
+                        href="#kaikki-sivut"
+                        data-archive-filter="tunti"
+                        aria-label="Näytä tuntiharjoitukset kurssin arkistossa"
                     >
-                        Avaa kokonaisuus
-                        <span aria-hidden="true">↗</span>
+                        Näytä arkistossa
+                        <span aria-hidden="true">↓</span>
                     </a>
                 </article>
 
-                <!--LINK WEBSITE-->
+                <!--PINJA EXERCISES-->
                 <article class="project-card">
                     <div class="card-number">02</div>
 
                     <div class="card-content">
-                        <span class="card-label">Monisivuinen projekti</span>
-                        <h3>Linkkisivusto</h3>
+                        <span class="card-label">Tehtävänannot</span>
+                        <h3>Pinja Harjoitukset</h3>
                         <p>
-                            Usean sivun verkkosivusto navigaatioineen, kuvagallerioineen ja yhteystietoineen.
+                            Pinjan antamat harjoitukset ja erilliset tehtäväkokonaisuudet.
                         </p>
-
-                        <ul
-                            class="tag-list"
-                            aria-label="Teknologiat"
-                        >
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>Navigaatio</li>
-                        </ul>
                     </div>
 
                     <a
                         class="card-link"
-                        href="linkkisivusto/index.html"
-                        aria-label="Avaa linkkisivusto"
+                        href="#kaikki-sivut"
+                        data-archive-filter="pinja"
+                        aria-label="Näytä Pinja-harjoitukset kurssin arkistossa"
                     >
-                        Avaa kokonaisuus
-                        <span aria-hidden="true">↗</span>
+                        Näytä arkistossa
+                        <span aria-hidden="true">↓</span>
                     </a>
                 </article>
 
-                <!--TESTS-->
+                <!--PROJECTS-->
                 <article class="project-card">
                     <div class="card-number">03</div>
 
                     <div class="card-content">
-                        <span class="card-label">Kokeilulaboratorio</span>
-                        <h3>Testit ja kokeilut</h3>
+                        <span class="card-label">Tulossa myöhemmin</span>
+                        <h3>Projektit</h3>
                         <p>
-                            Lomakkeita, kortteja, kirjautumisnäkymiä ja muita käyttöliittymäkokeiluja.
+                            Projekteja ei ole vielä tehty.
                         </p>
-
-                        <ul
-                            class="tag-list"
-                            aria-label="Teknologiat"
-                        >
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>JavaScript</li>
-                        </ul>
                     </div>
 
-                    <a
-                        class="card-link"
-                        href="testit/index.html"
-                        aria-label="Avaa testit ja kokeilut"
-                    >
-                        Avaa kokonaisuus
-                        <span aria-hidden="true">↗</span>
-                    </a>
+                    <div class="card-link card-link-muted">
+                        Ei projekteja vielä
+                    </div>
                 </article>
             </div>
         </section>
@@ -335,9 +355,9 @@
                 <div>
                     <p class="eyebrow">
                         <span aria-hidden="true"></span>
-                        Sivukirjasto
+                        Kurssin arkisto
                     </p>
-                    <h2 id="library-title">Kaikki harjoitussivut</h2>
+                    <h2 id="library-title">Tehdyt harjoitukset</h2>
                 </div>
 
                 <!--SEARCH-->
@@ -375,23 +395,23 @@
                 <button
                     class="filter-button"
                     type="button"
-                    data-filter="harjoitukset"
+                    data-filter="tunti"
                 >
-                    Harjoitukset
+                    Tunti harjoitukset
                 </button>
                 <button
                     class="filter-button"
                     type="button"
-                    data-filter="linkkisivusto"
+                    data-filter="pinja"
                 >
-                    Linkkisivusto
+                    Pinja Harjoitukset
                 </button>
                 <button
                     class="filter-button"
                     type="button"
-                    data-filter="testit"
+                    data-filter="projektit"
                 >
-                    Testit
+                    Projektit
                 </button>
                 <span
                     class="result-count"
@@ -427,25 +447,31 @@
                 <div>
                     <p class="eyebrow">
                         <span aria-hidden="true"></span>
-                        Työkalupakki
+                        Tekninen perusta
                     </p>
-                    <h2 id="tech-title">Kolme kieltä, yksi verkko</h2>
+                    <h2 id="tech-title">Kurssin toteutus</h2>
                 </div>
 
                 <p>
-                    Kurssin ytimessä ovat selaimen omat perusteknologiat – ilman ylimääräisiä kehyksiä.
+                    Opitaan luomaan laadukkaita ja toimivia nettisivuja käyttäen HTML:ää, CSS:ää sekä JavaScriptiä.
                 </p>
             </div>
 
             <!--TECHNOLOGY CARDS-->
             <div class="tech-grid">
                 <!--HTML-->
-                <article class="tech-card">
+                <article class="tech-card html-card">
                     <span
                         class="tech-icon html-icon"
                         aria-hidden="true"
                     >
-                        &lt;/&gt;
+                        <img
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/html5/html5-original.svg"
+                            alt=""
+                            width="48"
+                            height="48"
+                            loading="lazy"
+                        >
                     </span>
 
                     <div>
@@ -456,12 +482,18 @@
                 </article>
 
                 <!--CSS-->
-                <article class="tech-card">
+                <article class="tech-card css-card">
                     <span
                         class="tech-icon css-icon"
                         aria-hidden="true"
                     >
-                        #
+                        <img
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/css3/css3-original.svg"
+                            alt=""
+                            width="48"
+                            height="48"
+                            loading="lazy"
+                        >
                     </span>
 
                     <div>
@@ -472,12 +504,18 @@
                 </article>
 
                 <!--JAVASCRIPT-->
-                <article class="tech-card">
+                <article class="tech-card js-card">
                     <span
                         class="tech-icon js-icon"
                         aria-hidden="true"
                     >
-                        JS
+                        <img
+                            src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons/javascript/javascript-original.svg"
+                            alt=""
+                            width="48"
+                            height="48"
+                            loading="lazy"
+                        >
                     </span>
 
                     <div>
@@ -495,8 +533,8 @@
         <!--FOOTER BRAND-->
         <div class="footer-brand">
             <img
-                src="main/images/zoncuu_icon.png"
-                alt="Zoncuu"
+                src="main/images/zoncuu-profile.png"
+                alt="Zoncuu-profiilikuva"
             >
 
             <div>
@@ -505,10 +543,28 @@
             </div>
         </div>
 
-        <!--FOOTER TEXT-->
-        <p>
-            Suunniteltu ja rakennettu HTML:llä, CSS:llä ja JavaScriptillä.
-        </p>
+        <!--FOOTER LINKS-->
+        <nav
+            class="footer-links"
+            aria-label="Ulkoiset linkit"
+        >
+            <a
+                href="https://github.com/Zoncuu/HTML26"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub-repository
+                <span aria-hidden="true">↗</span>
+            </a>
+            <a
+                href="https://www.keuda.fi/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Keudan verkkosivut
+                <span aria-hidden="true">↗</span>
+            </a>
+        </nav>
 
         <!--BACK TO TOP-->
         <a href="#alku">
