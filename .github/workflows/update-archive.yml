@@ -6,6 +6,7 @@ on:
             - main
         paths:
             - "**/*.html"
+            - "tunti-harjoitukset/pages/osio_*/README.md"
             - "main/generate-archive.mjs"
             - ".github/workflows/update-archive.yml"
     workflow_dispatch:

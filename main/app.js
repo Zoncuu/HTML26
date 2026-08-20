@@ -1,4 +1,5 @@
 let pages = [];
+let lessonSections = [];
 
 const list = document.querySelector("#page-list");
 const search = document.querySelector("#page-search");
@@ -28,6 +29,30 @@ function readableGroup(group) {
         .replace(/^./, (letter) => letter.toLocaleUpperCase("fi"));
 }
 
+function readableFolderName(folderPath) {
+    const folderName = folderPath.split("/").at(-1) || folderPath;
+    const sectionMatch = folderName.match(/^osio_(\d+)$/i);
+
+    if (sectionMatch) {
+        return `Osio ${Number(sectionMatch[1])}`;
+    }
+
+    return folderName
+        .replaceAll("_", " ")
+        .replaceAll("-", " ")
+        .replace(/^./, (letter) => letter.toLocaleUpperCase("fi"));
+}
+
+function folderForPage(page) {
+    return page.folder || page.path.split("/").slice(0, -1).join("/");
+}
+
+function matchesSearch(page, query) {
+    return `${page.title} ${page.path} ${readableGroup(page.group)}`
+        .toLocaleLowerCase("fi")
+        .includes(query);
+}
+
 async function loadPages() {
     try {
         const response = await fetch("main/pages.json", { cache: "no-store" });
@@ -37,11 +62,19 @@ async function loadPages() {
         }
 
         const archive = await response.json();
-        pages = archive.filter((page) => (
+        const archivePages = Array.isArray(archive) ? archive : archive.pages;
+        const archiveSections = Array.isArray(archive) ? [] : archive.lessonSections;
+
+        pages = (Array.isArray(archivePages) ? archivePages : []).filter((page) => (
             typeof page.title === "string"
             && typeof page.group === "string"
             && typeof page.path === "string"
             && page.path.toLocaleLowerCase("fi").endsWith(".html")
+        ));
+        lessonSections = (Array.isArray(archiveSections) ? archiveSections : []).filter((section) => (
+            typeof section.name === "string"
+            && typeof section.label === "string"
+            && typeof section.path === "string"
         ));
 
         document.querySelector("#page-count").textContent = pages.length;
@@ -54,44 +87,159 @@ async function loadPages() {
     }
 }
 
+function createPageLink(page) {
+    const link = document.createElement("a");
+    const index = pages.indexOf(page) + 1;
+    link.className = "page-item";
+    link.href = page.path;
+
+    const number = document.createElement("span");
+    number.className = "page-item-index";
+    number.textContent = String(index).padStart(2, "0");
+
+    const copy = document.createElement("span");
+    const title = document.createElement("strong");
+    const group = document.createElement("small");
+    title.textContent = page.title;
+    group.textContent = readableGroup(page.group);
+    copy.append(title, group);
+
+    const arrow = document.createElement("span");
+    arrow.className = "page-item-arrow";
+    arrow.setAttribute("aria-hidden", "true");
+    arrow.textContent = "→";
+
+    link.append(number, copy, arrow);
+    return link;
+}
+
+function createFolder(folder, folderPages, query, emptyMessage) {
+    const details = document.createElement("details");
+    details.className = "archive-folder";
+    details.open = query.length > 0;
+
+    const summary = document.createElement("summary");
+    const folderIcon = document.createElement("span");
+    const folderCopy = document.createElement("span");
+    const folderTitle = document.createElement("strong");
+    const folderCount = document.createElement("small");
+    const folderArrow = document.createElement("span");
+
+    folderIcon.className = "archive-folder-icon";
+    folderIcon.setAttribute("aria-hidden", "true");
+    folderTitle.textContent = folder.label;
+    folderCount.textContent = folderPages.length === 1
+        ? "1 HTML-tiedosto"
+        : `${folderPages.length} HTML-tiedostoa`;
+    folderCopy.className = "archive-folder-copy";
+    folderCopy.append(folderTitle, folderCount);
+    folderArrow.className = "archive-folder-arrow";
+    folderArrow.setAttribute("aria-hidden", "true");
+    folderArrow.textContent = "+";
+    summary.append(folderIcon, folderCopy, folderArrow);
+
+    const content = document.createElement("div");
+    content.className = "archive-folder-content";
+
+    if (folderPages.length === 0) {
+        const message = document.createElement("p");
+        message.className = "archive-folder-empty";
+        message.textContent = emptyMessage;
+        content.append(message);
+    } else {
+        const folderPageList = document.createElement("div");
+        folderPageList.className = "folder-page-list";
+        folderPageList.append(...folderPages.map(createPageLink));
+        content.append(folderPageList);
+    }
+
+    details.append(summary, content);
+    return details;
+}
+
+function lessonFolderData(query) {
+    return lessonSections.flatMap((section) => {
+        const sectionPages = pages.filter((page) => (
+            page.group === "tunti"
+            && page.path.startsWith(`${section.path}/`)
+        ));
+        const folderMatches = `${section.label} ${section.name}`
+            .toLocaleLowerCase("fi")
+            .includes(query);
+        const visiblePages = !query || folderMatches
+            ? sectionPages
+            : sectionPages.filter((page) => matchesSearch(page, query));
+
+        if (query && !folderMatches && visiblePages.length === 0) {
+            return [];
+        }
+
+        return [{ ...section, pages: visiblePages }];
+    });
+}
+
+function pinjaFolderData(query) {
+    const folders = new Map();
+
+    pages.filter((page) => page.group === "pinja").forEach((page) => {
+        const folderPath = folderForPage(page);
+
+        if (!folders.has(folderPath)) {
+            folders.set(folderPath, {
+                name: folderPath.split("/").at(-1),
+                label: readableFolderName(folderPath),
+                path: folderPath,
+                pages: []
+            });
+        }
+
+        folders.get(folderPath).pages.push(page);
+    });
+
+    return [...folders.values()]
+        .sort((first, second) => first.path.localeCompare(second.path, "fi"))
+        .flatMap((folder) => {
+            const folderMatches = `${folder.label} ${folder.path}`
+                .toLocaleLowerCase("fi")
+                .includes(query);
+            const visiblePages = !query || folderMatches
+                ? folder.pages
+                : folder.pages.filter((page) => matchesSearch(page, query));
+
+            return query && !folderMatches && visiblePages.length === 0
+                ? []
+                : [{ ...folder, pages: visiblePages }];
+        });
+}
+
 function renderPages() {
     const query = search.value.trim().toLocaleLowerCase("fi");
-    const visiblePages = pages.filter((page) => {
-        const matchesGroup = activeFilter === "kaikki" || page.group === activeFilter;
-        const matchesSearch = `${page.title} ${page.group}`.toLocaleLowerCase("fi").includes(query);
 
-        return matchesGroup && matchesSearch;
-    });
+    if (activeFilter === "kaikki") {
+        const visiblePages = pages.filter((page) => matchesSearch(page, query));
+        list.classList.remove("is-folder-view");
+        list.replaceChildren(...visiblePages.map(createPageLink));
+        resultCount.textContent = `${visiblePages.length} / ${pages.length} HTML-tiedostoa`;
+        emptyState.textContent = "Hakua vastaavia HTML-tiedostoja ei löytynyt.";
+        emptyState.hidden = visiblePages.length !== 0;
+        return;
+    }
 
-    const pageLinks = visiblePages.map((page) => {
-        const link = document.createElement("a");
-        const index = pages.indexOf(page) + 1;
-        link.className = "page-item";
-        link.href = page.path;
+    const folders = activeFilter === "tunti"
+        ? lessonFolderData(query)
+        : pinjaFolderData(query);
+    const visiblePageCount = folders.reduce((total, folder) => total + folder.pages.length, 0);
+    const emptyMessage = activeFilter === "tunti"
+        ? "Tässä osiossa ei ole vielä HTML-tiedostoja."
+        : "Tässä kansiossa ei ole HTML-tiedostoja.";
 
-        const number = document.createElement("span");
-        number.className = "page-item-index";
-        number.textContent = String(index).padStart(2, "0");
-
-        const copy = document.createElement("span");
-        const title = document.createElement("strong");
-        const group = document.createElement("small");
-        title.textContent = page.title;
-        group.textContent = readableGroup(page.group);
-        copy.append(title, group);
-
-        const arrow = document.createElement("span");
-        arrow.className = "page-item-arrow";
-        arrow.setAttribute("aria-hidden", "true");
-        arrow.textContent = "→";
-
-        link.append(number, copy, arrow);
-        return link;
-    });
-
-    list.replaceChildren(...pageLinks);
-    resultCount.textContent = `${visiblePages.length} / ${pages.length} sivua`;
-    emptyState.hidden = visiblePages.length !== 0;
+    list.classList.add("is-folder-view");
+    list.replaceChildren(...folders.map((folder) => (
+        createFolder(folder, folder.pages, query, emptyMessage)
+    )));
+    resultCount.textContent = `${visiblePageCount} HTML-tiedostoa · ${folders.length} ${activeFilter === "tunti" ? "osiota" : "kansiota"}`;
+    emptyState.textContent = "Hakua vastaavia kansioita tai HTML-tiedostoja ei löytynyt.";
+    emptyState.hidden = folders.length !== 0;
 }
 
 function closeMenu() {

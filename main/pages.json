@@ -1,112 +1,188 @@
-[
-    {
-        "title": "Harjoitusten pääsivu",
-        "group": "pinja",
-        "path": "pinja-harjoitukset/index.html"
-    },
-    {
-        "title": "Tehtävät 1-3",
-        "group": "pinja",
-        "path": "pinja-harjoitukset/pages/harjoitukset_1-3.html"
-    },
-    {
-        "title": "Minun eka html-sivu",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_1/eka.html"
-    },
-    {
-        "title": "osio_10 etusivu",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_10/index.html"
-    },
-    {
-        "title": "Minusta",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_10/pages/minusta.html"
-    },
-    {
-        "title": "Yhteystiedot",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_10/pages/yhteys.html"
-    },
-    {
-        "title": "Lempi peli",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_2/lempi_peli.html"
-    },
-    {
-        "title": "Tehtäviä”",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_2/tehtava.html"
-    },
-    {
-        "title": "Joel Tyni",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/joeltyni.html"
-    },
-    {
-        "title": "Kuvaharjoittelu",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/kuva_harjoitus.html"
-    },
-    {
-        "title": "Linkkisivusto",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/index.html"
-    },
-    {
-        "title": "Kuvagalleria",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/kuvagalleria.html"
-    },
-    {
-        "title": "Minusta",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/minusta.html"
-    },
-    {
-        "title": "Yhteys",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/yhteys.html"
-    },
-    {
-        "title": "Tuolit",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_4/rakenna_kortti.html"
-    },
-    {
-        "title": "Hei Maailma",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_6/index.html"
-    },
-    {
-        "title": "Rekisteröityminen",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_7/login.html"
-    },
-    {
-        "title": "Yhteydenottolomake",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_7/yhteydenottolomake.html"
-    },
-    {
-        "title": "Audioharjoitus",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_9/audio_harjoitus.html"
-    },
-    {
-        "title": "Hero-kuva harjoitus",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_9/hero-kuva_harjoitus.html"
-    },
-    {
-        "title": "iframe harjoitus",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_9/iframe_harjoitus.html"
-    },
-    {
-        "title": "Videoharjoitus",
-        "group": "tunti",
-        "path": "tunti-harjoitukset/pages/osio_9/video_harjoitus.html"
-    }
-]
+{
+    "pages": [
+        {
+            "title": "Harjoitusten pääsivu",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/index.html",
+            "folder": "pinja-harjoitukset"
+        },
+        {
+            "title": "Tehtävät 1-3",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/harjoitukset_1-3.html",
+            "folder": "pinja-harjoitukset/pages"
+        },
+        {
+            "title": "Minun eka html-sivu",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_1/eka.html",
+            "folder": "tunti-harjoitukset/pages/osio_1"
+        },
+        {
+            "title": "osio_10 etusivu",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_10/index.html",
+            "folder": "tunti-harjoitukset/pages/osio_10"
+        },
+        {
+            "title": "Minusta",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_10/pages/minusta.html",
+            "folder": "tunti-harjoitukset/pages/osio_10/pages"
+        },
+        {
+            "title": "Yhteystiedot",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_10/pages/yhteys.html",
+            "folder": "tunti-harjoitukset/pages/osio_10/pages"
+        },
+        {
+            "title": "Lempi peli",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_2/lempi_peli.html",
+            "folder": "tunti-harjoitukset/pages/osio_2"
+        },
+        {
+            "title": "Tehtäviä”",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_2/tehtava.html",
+            "folder": "tunti-harjoitukset/pages/osio_2"
+        },
+        {
+            "title": "Joel Tyni",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/joeltyni.html",
+            "folder": "tunti-harjoitukset/pages/osio_3"
+        },
+        {
+            "title": "Kuvaharjoittelu",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/kuva_harjoitus.html",
+            "folder": "tunti-harjoitukset/pages/osio_3"
+        },
+        {
+            "title": "Linkkisivusto",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/index.html",
+            "folder": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo"
+        },
+        {
+            "title": "Kuvagalleria",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/kuvagalleria.html",
+            "folder": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo"
+        },
+        {
+            "title": "Minusta",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/minusta.html",
+            "folder": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo"
+        },
+        {
+            "title": "Yhteys",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo/yhteys.html",
+            "folder": "tunti-harjoitukset/pages/osio_3/linkkisivusto-demo"
+        },
+        {
+            "title": "Tuolit",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_4/rakenna_kortti.html",
+            "folder": "tunti-harjoitukset/pages/osio_4"
+        },
+        {
+            "title": "Hei Maailma",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_6/index.html",
+            "folder": "tunti-harjoitukset/pages/osio_6"
+        },
+        {
+            "title": "Rekisteröityminen",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_7/login.html",
+            "folder": "tunti-harjoitukset/pages/osio_7"
+        },
+        {
+            "title": "Yhteydenottolomake",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_7/yhteydenottolomake.html",
+            "folder": "tunti-harjoitukset/pages/osio_7"
+        },
+        {
+            "title": "Audioharjoitus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_9/audio_harjoitus.html",
+            "folder": "tunti-harjoitukset/pages/osio_9"
+        },
+        {
+            "title": "Hero-kuva harjoitus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_9/hero-kuva_harjoitus.html",
+            "folder": "tunti-harjoitukset/pages/osio_9"
+        },
+        {
+            "title": "iframe harjoitus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_9/iframe_harjoitus.html",
+            "folder": "tunti-harjoitukset/pages/osio_9"
+        },
+        {
+            "title": "Videoharjoitus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_9/video_harjoitus.html",
+            "folder": "tunti-harjoitukset/pages/osio_9"
+        }
+    ],
+    "lessonSections": [
+        {
+            "name": "osio_1",
+            "label": "Osio 1",
+            "path": "tunti-harjoitukset/pages/osio_1"
+        },
+        {
+            "name": "osio_2",
+            "label": "Osio 2",
+            "path": "tunti-harjoitukset/pages/osio_2"
+        },
+        {
+            "name": "osio_3",
+            "label": "Osio 3",
+            "path": "tunti-harjoitukset/pages/osio_3"
+        },
+        {
+            "name": "osio_4",
+            "label": "Osio 4",
+            "path": "tunti-harjoitukset/pages/osio_4"
+        },
+        {
+            "name": "osio_5",
+            "label": "Osio 5",
+            "path": "tunti-harjoitukset/pages/osio_5"
+        },
+        {
+            "name": "osio_6",
+            "label": "Osio 6",
+            "path": "tunti-harjoitukset/pages/osio_6"
+        },
+        {
+            "name": "osio_7",
+            "label": "Osio 7",
+            "path": "tunti-harjoitukset/pages/osio_7"
+        },
+        {
+            "name": "osio_8",
+            "label": "Osio 8",
+            "path": "tunti-harjoitukset/pages/osio_8"
+        },
+        {
+            "name": "osio_9",
+            "label": "Osio 9",
+            "path": "tunti-harjoitukset/pages/osio_9"
+        },
+        {
+            "name": "osio_10",
+            "label": "Osio 10",
+            "path": "tunti-harjoitukset/pages/osio_10"
+        }
+    ]
+}

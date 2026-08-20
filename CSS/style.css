@@ -777,6 +777,128 @@ h1 {
     gap: 10px;
 }
 
+.page-list.is-folder-view {
+    align-items: start;
+}
+
+.archive-folder {
+    overflow: hidden;
+    border: 1px solid var(--line-dark);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.45);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.archive-folder:hover,
+.archive-folder[open] {
+    border-color: rgba(28, 36, 32, 0.38);
+    background: var(--white);
+}
+
+.archive-folder summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    min-height: 76px;
+    padding: 15px 16px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.archive-folder summary::-webkit-details-marker {
+    display: none;
+}
+
+.archive-folder summary:focus-visible {
+    outline: 2px solid var(--lime-dark);
+    outline-offset: -3px;
+}
+
+.archive-folder-icon {
+    position: relative;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--line-dark);
+    border-radius: 11px;
+    background: var(--paper-soft);
+    color: var(--lime-dark);
+    font-size: 1.15rem;
+    font-weight: 850;
+}
+
+.archive-folder-icon::before {
+    content: "";
+    width: 17px;
+    height: 12px;
+    border: 2px solid currentColor;
+    border-radius: 3px;
+}
+
+.archive-folder-icon::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 8px;
+    height: 4px;
+    border: 2px solid currentColor;
+    border-bottom: 0;
+    border-radius: 3px 3px 0 0;
+    background: var(--paper-soft);
+}
+
+.archive-folder-copy {
+    display: grid;
+    min-width: 0;
+    gap: 2px;
+}
+
+.archive-folder-copy strong {
+    font-size: 0.9rem;
+}
+
+.archive-folder-copy small {
+    color: var(--muted-dark);
+    font-size: 0.68rem;
+}
+
+.archive-folder-arrow {
+    color: var(--lime-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+}
+
+.archive-folder[open] .archive-folder-arrow {
+    transform: rotate(45deg);
+}
+
+.archive-folder-content {
+    padding: 12px;
+    border-top: 1px solid var(--line-dark);
+}
+
+.folder-page-list {
+    display: grid;
+    gap: 8px;
+}
+
+.archive-folder .page-item {
+    padding: 13px;
+    background: var(--paper-soft);
+}
+
+.archive-folder-empty {
+    margin: 0;
+    padding: 18px 12px;
+    color: var(--muted-dark);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
 .page-item {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;

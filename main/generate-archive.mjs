@@ -1,9 +1,10 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
-import { extname, relative, resolve, sep } from "node:path";
+import { dirname, extname, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const projectRoot = fileURLToPath(new URL("..", import.meta.url));
 const outputFile = resolve(projectRoot, "main", "pages.json");
+const lessonPagesDirectory = resolve(projectRoot, "tunti-harjoitukset", "pages");
 const ignoredDirectories = new Set([".git", ".github", "CSS", "main", "node_modules"]);
 const groupNames = {
     "tunti-harjoitukset": "tunti",
@@ -58,6 +59,35 @@ function groupFor(filePath) {
     return groupNames[topDirectory] || topDirectory;
 }
 
+function readableFolderName(folderName) {
+    const sectionMatch = folderName.match(/^osio_(\d+)$/i);
+
+    if (sectionMatch) {
+        return `Osio ${Number(sectionMatch[1])}`;
+    }
+
+    return folderName
+        .replaceAll("_", " ")
+        .replaceAll("-", " ")
+        .replace(/^./, (letter) => letter.toLocaleUpperCase("fi"));
+}
+
+async function findLessonSections() {
+    const entries = await readdir(lessonPagesDirectory, { withFileTypes: true });
+
+    return entries
+        .filter((entry) => entry.isDirectory() && /^osio_\d+$/i.test(entry.name))
+        .map((entry) => ({
+            name: entry.name,
+            label: readableFolderName(entry.name),
+            path: relative(projectRoot, resolve(lessonPagesDirectory, entry.name)).split(sep).join("/")
+        }))
+        .sort((first, second) => (
+            Number(first.name.match(/\d+/)?.[0] || 0)
+            - Number(second.name.match(/\d+/)?.[0] || 0)
+        ));
+}
+
 const htmlFiles = await findHtmlFiles(projectRoot);
 const pages = [];
 
@@ -74,7 +104,8 @@ for (const absolutePath of htmlFiles) {
     pages.push({
         title,
         group: groupFor(filePath),
-        path: filePath
+        path: filePath,
+        folder: dirname(filePath).split(sep).join("/")
     });
 }
 
@@ -83,5 +114,10 @@ pages.sort((first, second) => (
     || first.path.localeCompare(second.path, "fi")
 ));
 
-await writeFile(outputFile, `${JSON.stringify(pages, null, 4)}\n`, "utf8");
+const archive = {
+    pages,
+    lessonSections: await findLessonSections()
+};
+
+await writeFile(outputFile, `${JSON.stringify(archive, null, 4)}\n`, "utf8");
 console.log(`Kurssiarkistoon lisättiin ${pages.length} HTML-sivua.`);

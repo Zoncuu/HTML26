@@ -63,7 +63,7 @@ HTML26/
 | `css/style.css` | Pääsivun visuaalinen ilme ja responsiivisuus. |
 | `main/app.js` | Pääsivun navigaatio, haku, suodatus ja arkiston näyttäminen. |
 | `main/images/` | Pääsivun kuvat ja tunnukset. |
-| `main/pages.json` | Automaattisesti muodostettu luettelo olemassa olevista HTML-sivuista. Tätä tiedostoa ei tarvitse muokata käsin. |
+| `main/pages.json` | Automaattisesti muodostettu luettelo HTML-sivuista ja tuntiharjoitusten osiokansioista. Tätä tiedostoa ei tarvitse muokata käsin. |
 | `main/generate-archive.mjs` | Etsii repositoryn HTML-tiedostot ja muodostaa `pages.json`-luettelon. |
 | `.github/workflows/update-archive.yml` | Päivittää kurssiarkiston automaattisesti GitHubissa. |
 | `tunti-harjoitukset/` | Oppitunneilla tehdyt harjoitukset ja niihin kuuluvat materiaalit. |
@@ -77,6 +77,10 @@ HTML26/
 ## Kurssiarkiston automaattinen päivitys
 
 Pääsivun **Kurssin arkisto** muodostetaan automaattisesti. Arkistoon lisätään vain sellaiset sivut, joille löytyy oikea `.html`-tiedosto.
+
+- **Kaikki** näyttää kaikki löydetyt HTML-tiedostot yhtenä luettelona.
+- **Tunti harjoitukset** näyttää kaikki `osio_x`-kansiot. Myös tyhjä osio näkyy ja kertoo, ettei siinä ole vielä HTML-tiedostoja.
+- **Pinja Harjoitukset** näyttää vain HTML-tiedostoja sisältävät kansiot niiden omilla kansionimillä.
 
 Automaation toimintaperiaate:
 
@@ -109,7 +113,7 @@ node main/generate-archive.mjs
 
 ### Pinja-harjoitus
 
-1. Luo HTML-tiedosto kansioon `pinja-harjoitukset/pages/`.
+1. Luo HTML-tiedosto sopivaan kansioon `pinja-harjoitukset/`-hakemiston alle. Arkisto muodostaa näkymän automaattisesti tiedoston sisältävän kansion perusteella.
 2. Käytä Pinja-harjoitusten omaa `css/style.css`-tiedostoa, jos tehtävä kuuluu samaan sivukokonaisuuteen.
 3. Lisää mahdolliset JavaScript-, kuva-, ääni- ja videotiedostot niiden omiin kansioihin.
 4. Vie muutokset `main`-haaraan.
