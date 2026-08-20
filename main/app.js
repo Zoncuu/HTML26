@@ -232,12 +232,16 @@ function renderPages() {
     const emptyMessage = activeFilter === "tunti"
         ? "Tässä osiossa ei ole vielä HTML-tiedostoja."
         : "Tässä kansiossa ei ole HTML-tiedostoja.";
+    const pageLabel = visiblePageCount === 1 ? "HTML-tiedosto" : "HTML-tiedostoa";
+    const folderLabel = activeFilter === "tunti"
+        ? (folders.length === 1 ? "osio" : "osiota")
+        : (folders.length === 1 ? "kansio" : "kansiota");
 
     list.classList.add("is-folder-view");
     list.replaceChildren(...folders.map((folder) => (
         createFolder(folder, folder.pages, query, emptyMessage)
     )));
-    resultCount.textContent = `${visiblePageCount} HTML-tiedostoa · ${folders.length} ${activeFilter === "tunti" ? "osiota" : "kansiota"}`;
+    resultCount.textContent = `${visiblePageCount} ${pageLabel} · ${folders.length} ${folderLabel}`;
     emptyState.textContent = "Hakua vastaavia kansioita tai HTML-tiedostoja ei löytynyt.";
     emptyState.hidden = folders.length !== 0;
 }

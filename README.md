@@ -76,11 +76,11 @@ HTML26/
 
 ## Kurssiarkiston automaattinen päivitys
 
-Pääsivun **Kurssin arkisto** muodostetaan automaattisesti. Arkistoon lisätään vain sellaiset sivut, joille löytyy oikea `.html`-tiedosto.
+Pääsivun **Kurssin arkisto** muodostetaan automaattisesti. Arkistoon lisätään vain sellaiset sivut, joille löytyy oikea `.html`-tiedosto. Repositoryn pääsivu ja `pinja-harjoitukset/index.html` jätetään arkiston ulkopuolelle.
 
 - **Kaikki** näyttää kaikki löydetyt HTML-tiedostot yhtenä luettelona.
 - **Tunti harjoitukset** näyttää kaikki `osio_x`-kansiot. Myös tyhjä osio näkyy ja kertoo, ettei siinä ole vielä HTML-tiedostoja.
-- **Pinja Harjoitukset** näyttää vain HTML-tiedostoja sisältävät kansiot niiden omilla kansionimillä.
+- **Pinja Harjoitukset** näyttää vain `pinja-harjoitukset/pages/`-kansion alla olevat HTML-tiedostot ja niitä sisältävät kansiot.
 
 Automaation toimintaperiaate:
 
@@ -113,7 +113,7 @@ node main/generate-archive.mjs
 
 ### Pinja-harjoitus
 
-1. Luo HTML-tiedosto sopivaan kansioon `pinja-harjoitukset/`-hakemiston alle. Arkisto muodostaa näkymän automaattisesti tiedoston sisältävän kansion perusteella.
+1. Luo HTML-tiedosto sopivaan kansioon `pinja-harjoitukset/pages/`-hakemiston alle. Arkisto muodostaa näkymän automaattisesti tiedoston sisältävän kansion perusteella.
 2. Käytä Pinja-harjoitusten omaa `css/style.css`-tiedostoa, jos tehtävä kuuluu samaan sivukokonaisuuteen.
 3. Lisää mahdolliset JavaScript-, kuva-, ääni- ja videotiedostot niiden omiin kansioihin.
 4. Vie muutokset `main`-haaraan.

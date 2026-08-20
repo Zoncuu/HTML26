@@ -6,6 +6,10 @@ const projectRoot = fileURLToPath(new URL("..", import.meta.url));
 const outputFile = resolve(projectRoot, "main", "pages.json");
 const lessonPagesDirectory = resolve(projectRoot, "tunti-harjoitukset", "pages");
 const ignoredDirectories = new Set([".git", ".github", "CSS", "main", "node_modules"]);
+const ignoredHtmlFiles = new Set([
+    "index.html",
+    "pinja-harjoitukset/index.html"
+]);
 const groupNames = {
     "tunti-harjoitukset": "tunti",
     "pinja-harjoitukset": "pinja",
@@ -94,7 +98,10 @@ const pages = [];
 for (const absolutePath of htmlFiles) {
     const filePath = relative(projectRoot, absolutePath).split(sep).join("/");
 
-    if (filePath === "index.html") continue;
+    const isPinjaPage = filePath.startsWith("pinja-harjoitukset/pages/");
+    const isOutsidePinjaPages = filePath.startsWith("pinja-harjoitukset/") && !isPinjaPage;
+
+    if (ignoredHtmlFiles.has(filePath) || isOutsidePinjaPages) continue;
 
     const html = await readFile(absolutePath, "utf8");
     const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);

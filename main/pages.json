@@ -1,12 +1,6 @@
 {
     "pages": [
         {
-            "title": "Harjoitusten pääsivu",
-            "group": "pinja",
-            "path": "pinja-harjoitukset/index.html",
-            "folder": "pinja-harjoitukset"
-        },
-        {
             "title": "Tehtävät 1-3",
             "group": "pinja",
             "path": "pinja-harjoitukset/pages/harjoitukset_1-3.html",
