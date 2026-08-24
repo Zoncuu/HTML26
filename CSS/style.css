@@ -442,6 +442,37 @@ h1 {
     font-weight: 650;
 }
 
+.course-coordinates dd a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 4px;
+    transition:
+        color 160ms ease,
+        text-decoration-color 160ms ease;
+}
+
+.course-coordinates dd a::after {
+    content: "↗";
+    color: var(--lime);
+    font-size: 0.72em;
+    font-weight: 800;
+    transform: translateY(-1px);
+    transition: transform 160ms ease;
+}
+
+.course-coordinates dd a:hover {
+    color: var(--text);
+    text-decoration-color: var(--lime);
+}
+
+.course-coordinates dd a:hover::after {
+    transform: translate(2px, -3px);
+}
+
 .hero-panel {
     padding: 26px;
     border: 1px solid var(--line-dark);
