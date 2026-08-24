@@ -31,6 +31,12 @@
             "folder": "tunti-harjoitukset/pages/osio_10/pages"
         },
         {
+            "title": "Validointi",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_11/harjoitus1.html",
+            "folder": "tunti-harjoitukset/pages/osio_11"
+        },
+        {
             "title": "Lempi peli",
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/osio_2/lempi_peli.html",
@@ -177,6 +183,11 @@
             "name": "osio_10",
             "label": "Osio 10",
             "path": "tunti-harjoitukset/pages/osio_10"
+        },
+        {
+            "name": "osio_11",
+            "label": "Osio 11",
+            "path": "tunti-harjoitukset/pages/osio_11"
         }
     ]
 }
