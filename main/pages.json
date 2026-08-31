@@ -7,6 +7,36 @@
             "folder": "pinja-harjoitukset/pages"
         },
         {
+            "title": "Pohjoinen Suomi",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Rakenneharjoitus/index.html",
+            "folder": "pinja-harjoitukset/pages/Rakenneharjoitus"
+        },
+        {
+            "title": "Kuvagalleria",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Rakenneharjoitus/kuvagalleria.html",
+            "folder": "pinja-harjoitukset/pages/Rakenneharjoitus"
+        },
+        {
+            "title": "Lomake",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Rakenneharjoitus/lomake.html",
+            "folder": "pinja-harjoitukset/pages/Rakenneharjoitus"
+        },
+        {
+            "title": "Nähtävyydet",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Rakenneharjoitus/nahtavyydet.html",
+            "folder": "pinja-harjoitukset/pages/Rakenneharjoitus"
+        },
+        {
+            "title": "Yhteystiedot",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Rakenneharjoitus/yhteystiedot.html",
+            "folder": "pinja-harjoitukset/pages/Rakenneharjoitus"
+        },
+        {
             "title": "Minun eka html-sivu",
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/osio_1/eka.html",
@@ -35,6 +65,24 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/osio_11/harjoitus1.html",
             "folder": "tunti-harjoitukset/pages/osio_11"
+        },
+        {
+            "title": "Harjoitus2",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/index.html",
+            "folder": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto"
+        },
+        {
+            "title": "Kurssit",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages/kurssit.html",
+            "folder": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages"
+        },
+        {
+            "title": "Yhteystiedot",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages/yhteystiedot.html",
+            "folder": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages"
         },
         {
             "title": "Lempi peli",
