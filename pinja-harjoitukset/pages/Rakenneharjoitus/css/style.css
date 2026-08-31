@@ -1,0 +1,169 @@
+:root {
+    --color-primary: #2E5E4E;
+    --color-primary-light: #4F8A6D;
+
+    --color-background: #F7F9FA;
+    --color-surface: #FFFFFF;
+
+    --color-text: #2C3E50;
+    --color-text-light: #6B7280;
+
+    --color-accent: #2B6CB0;
+
+    --color-border: #DCE3E6;
+}
+
+body {
+    background-color: var(--color-primary);
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    margin: 2rem 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+}
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+#tekstiosiolinkit {
+    display: flex;
+    justify-content: center;
+
+    max-width: 1200px;
+    width: 90%;
+
+    margin: -2rem auto;
+}
+#tekstiosiolinkit ul {
+    display: flex;
+    gap: 4rem;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#tekstiosiolinkit a {
+    display: inline-block;
+
+    padding: 0.8rem 1.4rem;
+
+    background-color: var(--color-primary-light);
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    transition: 0.4s;
+}
+#tekstiosiolinkit a:hover {
+    background-color: #2C3E50;
+}
+#tekstiosiolinkit p {
+    color: white;
+}
+
+main {
+    flex: 1;
+
+    padding: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 90%;
+    background-color: var(--color-primary-light);
+    
+    border-radius: 8px;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+main h3 {
+    text-align: center;
+
+    padding: 0.5rem;
+    margin: 1rem 0;
+}
+.info_section {
+    text-align: left;
+
+    background-color: var(--color-background);
+    color: var(--color-text)
+
+    width: 92%;
+    padding: 1.5rem;
+    margin: 1rem 0;
+
+    border-radius: 8px;
+}
+address {
+    text-align: center;
+}
+address a {
+    color: black;
+}
+#yhteystiedot {
+    text-align: center;
+}
+
+article {
+    text-align: center;
+
+    display: inline-block;
+    background-color: var(--color-background);
+
+    padding: 0.5rem;
+    margin: 2rem 0;
+    max-width: 420px;
+
+    border-radius: 8px;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+
+    width: 87%;
+    margin: 4rem auto;
+}
+
+footer {
+    max-width: 1200px;
+    width: 90%;
+
+    margin: 0 auto;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    color: black;
+}
+footer a {
+    color: black;
+    text-decoration: none;
+}
+footer p {
+    margin: 0;
+}
+footer nav ul {
+    list-style: none;
+    display: flex;
+    gap: 10rem;
+}
