@@ -7,6 +7,48 @@
             "folder": "pinja-harjoitukset/pages"
         },
         {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/01_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/02_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/03_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/04_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/05_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/06_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
+            "title": "Taulukko",
+            "group": "pinja",
+            "path": "pinja-harjoitukset/pages/Osa11/07_harjoitus.html",
+            "folder": "pinja-harjoitukset/pages/Osa11"
+        },
+        {
             "title": "Pohjoinen Suomi",
             "group": "pinja",
             "path": "pinja-harjoitukset/pages/Rakenneharjoitus/index.html",
@@ -83,6 +125,12 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages/yhteystiedot.html",
             "folder": "tunti-harjoitukset/pages/osio_11/rikkinainen-sivusto/pages"
+        },
+        {
+            "title": "head-harjoitus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/osio_12/harjoitus1.html",
+            "folder": "tunti-harjoitukset/pages/osio_12"
         },
         {
             "title": "Lempi peli",
@@ -179,6 +227,12 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/osio_9/video_harjoitus.html",
             "folder": "tunti-harjoitukset/pages/osio_9"
+        },
+        {
+            "title": "Canva-esimerkki",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas.html",
+            "folder": "tunti-harjoitukset/pages/schoolai"
         }
     ],
     "lessonSections": [
@@ -236,6 +290,11 @@
             "name": "osio_11",
             "label": "Osio 11",
             "path": "tunti-harjoitukset/pages/osio_11"
+        },
+        {
+            "name": "osio_12",
+            "label": "Osio 12",
+            "path": "tunti-harjoitukset/pages/osio_12"
         }
     ]
 }
