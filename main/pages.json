@@ -229,10 +229,52 @@
             "folder": "tunti-harjoitukset/pages/osio_9"
         },
         {
+            "title": "Tyhjentäminen ja uudelleenpiirtäminen",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe12.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Hiiri- ja näppäimistötapahtumat",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe13.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Animaatio",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe14.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Canvasin reunat ja törmäystarkistus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe15.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Yleiset virheet ja debuggaus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe16.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Saavutettavuus",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/aihe17.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
             "title": "Canva-esimerkki",
             "group": "tunti",
-            "path": "tunti-harjoitukset/pages/schoolai/canvas.html",
-            "folder": "tunti-harjoitukset/pages/schoolai"
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/canvas.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Piirto-ohjelma",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/piirto-ohjelma.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
         }
     ],
     "lessonSections": [
