@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <title>Canva-esimerkki</title>
+</head>
+<body>
+    <header>
+        <h1>Canvas-esimerkki</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");  
+            
+            // Nimetty väri  
+            konteksti.fillStyle = "purple";  
+            konteksti.fillRect(50, 50, 100, 80);  
+            
+            // RGB-väri  
+            konteksti.fillStyle = "rgb(255, 100, 50)";  
+            konteksti.fillRect(200, 50, 100, 80);  
+            
+            // RGBA-väri (läpinäkyvyys 0.8)  
+            konteksti.fillStyle = "rgba(0, 150, 255, 0.8)";  
+            konteksti.fillRect(125, 100, 100, 80);  
+            
+            // Reunaviiva  
+            konteksti.strokeStyle = "green";  
+            konteksti.lineWidth = 8;  
+            konteksti.strokeRect(50, 200, 100, 60); 
+            
+            // Kolmio
+            konteksti.beginPath();
+            konteksti.moveTo(200, 300);
+            konteksti.lineTo(300, 300); 
+            konteksti.lineTo(250, 200);
+            konteksti.closePath();
+            konteksti.fillStyle = "orange";
+            konteksti.fill();
+
+            // Kolmion reunaviiva
+            konteksti.strokeStyle = "rgba(0, 0, 0, 0.5)";
+            konteksti.lineWidth = 5;
+            konteksti.stroke();
+
+            // Täysi ympyrä
+            konteksti.beginPath();
+            konteksti.arc(400, 60, 50, 0, Math.PI * 2);
+            konteksti.fillStyle = "rgb(100, 50, 50)";
+            konteksti.fill();
+
+            // Puolikympyrä
+            konteksti.beginPath();
+            konteksti.arc(360, 180, 50, 0, Math.PI);
+            konteksti.fillStyle = "rgba(50, 100, 150, 0.7)";
+            konteksti.fill();   
+
+            // Neljännesympyrä
+            konteksti.beginPath();
+            konteksti.arc(380, 260, 50, 0, Math.PI / 2);
+            konteksti.fillStyle = "green";
+            konteksti.fill();
+
+            // Tekstiharjoitus (täytetty teksti)
+            konteksti.font = "30px Arial";
+            konteksti.fillStyle = "rgba(255, 0, 200, 0.9)";
+            konteksti.fillText("Tekstitesti", 20, 320);
+
+            // Tekstiharjoitus (reunaviiva)
+            konteksti.strokeStyle = "rgba(0, 155, 50, 0.5)";
+            konteksti.lineWidth = 2;
+            konteksti.strokeText("mOimOsdadaoI", 20, 360);
+
+            // Kuvaharjoitus
+            const kuva = new Image();
+            kuva.onload = function() {
+                konteksti.drawImage(kuva, 460, 40, 150, 220);
+            };
+            kuva.src = "../../images/kissakuva.jpeg";
+
+
+        </script>  
+    </main>
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>  
+</html>

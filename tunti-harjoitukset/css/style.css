@@ -112,9 +112,56 @@ iframe {
 #piirtoAlusta {
     width: 800px;
     height: 600px;
-
     display: block;
     margin: 20px auto;
     border: 2px solid #333;
     background-color: #ffffff;
+}
+
+.vari-valitsin {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.vari-painike {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.punainen {
+    background-color: red;
+}
+
+.sininen {
+    background-color: blue;
+}
+
+.vihrea {
+    background-color: green;
+}
+
+.keltainen {
+    background-color: yellow;
+}
+
+.sivellin-koko {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.sivellin-koko label {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+#koko {
+    width: 200px;
 }

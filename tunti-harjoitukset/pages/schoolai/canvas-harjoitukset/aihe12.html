@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tyhjentäminen ja uudelleenpiirtäminen</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 12</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");
+
+            let x = 50;
+
+            function piirra() {
+                // Tyhjennetään canvas
+                konteksti.clearRect(0, 0, canvas.width, canvas.height);
+
+
+                // Päivitetään sijainti
+                x += 2;
+
+                // Piirretään suorakulmio uuteen sijaintiin
+                konteksti.fillStyle = "blue";
+                konteksti.fillRect(x, 100, 100, 80);
+            }
+
+            // Kutsutaan piirra-funktiota 100ms välein
+            setInterval(piirra, 100);
+        </script>  
+    </main>
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animaatio</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 14</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");  
+            
+            // Pysyvät muuttujat  
+            let x = 50;  
+            let y = 100;  
+            let vx = 3; // Nopeus x-suunnassa  
+            let vy = 1; // Nopeus y-suunnassa  
+            
+            function animoi() {  
+                // 1. Päivitä sijainnit  
+                x = x + vx;  
+                y = y + vy;  
+                
+                // 2. Tyhjennä Canvas  
+                konteksti.clearRect(0, 0, canvas.width, canvas.height);  
+                
+                // 3. Piirrä kaikki uudelleen  
+                konteksti.fillStyle = "green";  
+                konteksti.fillRect(x, y, 40, 25);  
+                
+                // 4. Kutsu animaatiosilmukkaa uudelleen  
+                requestAnimationFrame(animoi);  
+            }  
+            
+            // Käynnistä animaatio  
+            animoi();  
+        </script>  
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yleiset virheet ja debuggaus</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 16</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            console.log("Canvas:", canvas); // Tarkistetaan, että Canvas löytyy  
+            
+            if (canvas === null) {  
+                console.error("Canvas-elementtiä ei löytynyt!");  
+            }  
+            
+            const konteksti = canvas.getContext("2d");  
+            console.log("Konteksti:", konteksti); // Tarkistetaan, että konteksti löytyy  
+            
+            konteksti.fillStyle = "blue";  
+            konteksti.fillRect(50, 50, 100, 80);  
+        </script>  
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

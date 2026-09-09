@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saavutettavuus</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 17</h1>
+    </header>
+
+    <main> 
+        <canvas id="piirtoAlusta" width="400" height="300"   
+                role="img"   
+                aria-label="Peli, jossa pelaaja kerää pisteitä">  
+            Peli ei toimi selaimessasi. Ota JavaScript käyttöön.  
+        </canvas> 
+          
+        <p>Pisteet: <span id="pisteet">0</span></p>
+        
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");  
+            let pisteet = 0;  
+            
+            // Päivitetään pisteet myös HTML-tekstiin  
+            function paivitaPisteet() {  
+                document.getElementById("pisteet").textContent = pisteet;  
+            }  
+            
+            // Esimerkki: piirretään suorakulmio  
+            konteksti.fillStyle = "blue";  
+            konteksti.fillRect(50, 50, 100, 80);  
+        </script>
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

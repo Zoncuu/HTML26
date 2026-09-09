@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvasin reunat ja törmäystarkistus</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 15</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+        <script>  
+        const canvas = document.getElementById("piirtoAlusta");  
+        const konteksti = canvas.getContext("2d");  
+          
+        let x = 50;  
+        let y = 100;  
+        let vx = 4;  
+        let vy = 2.1;  
+        const leveys = 50;  
+        const korkeus = 50;  
+          
+        function animoi() {  
+            // Päivitä sijainti  
+            x = x + vx;  
+            y = y + vy;  
+              
+            // Reunatarkistus  
+            if (x < 0 || x + leveys > canvas.width) {  
+                vx = -vx; // Käännetään x-nopeus  
+            }  
+            if (y < 0 || y + korkeus > canvas.height) {  
+                vy = -vy; // Käännetään y-nopeus  
+            }  
+              
+            // Tyhjennä ja piirrä  
+            konteksti.clearRect(0, 0, canvas.width, canvas.height);  
+            konteksti.fillStyle = "red";  
+            konteksti.fillRect(x, y, leveys, korkeus);  
+              
+            requestAnimationFrame(animoi);  
+        }  
+          
+        animoi();  
+    </script>  
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

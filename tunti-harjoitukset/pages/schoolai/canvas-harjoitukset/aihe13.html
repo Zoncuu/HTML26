@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiiri- ja näppäimistötapahtumat</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Aihe 13</h1>
+    </header>
+
+    <main>
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");
+
+            // Hiiren klikkaustapahtuma  
+            canvas.addEventListener("click", function(event) {  
+                // Muutetaan hiiren koordinaatit Canvas-koordinaateiksi  
+                const rect = canvas.getBoundingClientRect();  
+                const x = event.clientX - rect.left;  
+                const y = event.clientY - rect.top;  
+                
+                // Piirretään ympyrä klikkauksen kohtaan  
+                konteksti.beginPath();  
+                konteksti.arc(x, y, 50, 0, Math.PI * 2);  
+                konteksti.fillStyle = "green";  
+                konteksti.fill();  
+            });  
+        </script>  
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

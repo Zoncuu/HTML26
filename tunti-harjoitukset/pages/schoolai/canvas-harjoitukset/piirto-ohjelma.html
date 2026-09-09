@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piirto-ohjelma</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Piirto-ohjelma</h1>
+    </header>
+
+    <main> 
+        <canvas id="piirtoAlusta" width="800" height="600"   
+                role="img"   
+                aria-label="Piirtoalusta, jossa käyttäjä voi piirtää hiirellä">  
+            Tämä ei toimi selaimessasi. Ota JavaScript käyttöön.  
+        </canvas> 
+
+        <!-- Värivalintapainikkeet -->  
+        <div class="vari-valitsin">
+            <button class="vari-painike punainen" data-vari="red"></button>
+            <button class="vari-painike sininen" data-vari="blue"></button>
+            <button class="vari-painike vihrea" data-vari="green"></button>
+            <button class="vari-painike keltainen" data-vari="yellow"></button>
+        </div>
+
+        <div class="sivellin-koko">
+            <label for="koko">Siveltimen koko:</label>
+            <input
+                type="range"
+                id="koko"
+                min="1"
+                max="50"
+                value="5">
+            <span id="kokoArvo">5 px</span>
+        </div>
+
+        
+        <script>  
+            const canvas = document.getElementById("piirtoAlusta");  
+            const konteksti = canvas.getContext("2d");  
+
+            const variPainikkeet = document.querySelectorAll(".vari-painike");
+
+            const kokoSlider = document.getElementById("koko");
+            const kokoArvo = document.getElementById("kokoArvo");
+
+            let pencilColor = "black";
+            let pencilSize = 5;
+            let piirretaan = false;
+
+            variPainikkeet.forEach(function(painike) {  
+                painike.addEventListener("click", function() {  
+                    // Lue värin data-attribuutista  
+                    const vari = this.getAttribute("data-vari");  
+                    
+                    // Tallenna väri muuttujaan  
+                    pencilColor = vari;  
+                    
+                    console.log("Valittu väri:", vari);  
+                });  
+            });
+
+            kokoSlider.addEventListener("input", function() {
+                pencilSize = this.value;
+                kokoArvo.textContent = pencilSize + " px";
+            });
+  
+            canvas.addEventListener("mousedown", function(event) {  
+                const rect = canvas.getBoundingClientRect();  
+                const x = event.clientX - rect.left;  
+                const y = event.clientY - rect.top;  
+                
+                piirretaan = true;  
+                konteksti.beginPath();  
+                konteksti.moveTo(x, y);  
+            });  
+            
+            // mousemove - jatketaan piirtoa  
+            canvas.addEventListener("mousemove", function(event) {  
+                const rect = canvas.getBoundingClientRect();  
+                const x = event.clientX - rect.left;  
+                const y = event.clientY - rect.top;  
+                
+                if (piirretaan) {  
+                    konteksti.lineTo(x, y); 
+                    konteksti.lineWidth = pencilSize;
+                    konteksti.strokeStyle = pencilColor;
+                    konteksti.stroke();  
+                }  
+            });
+
+            // mouseup - lopetetaan piirto  
+            canvas.addEventListener("mouseup", function(event) {  
+                piirretaan = false;  
+            });
+        </script>
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>
