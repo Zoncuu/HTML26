@@ -275,6 +275,18 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/piirto-ohjelma.html",
             "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "SVG:n idea ja HTML",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/aihe1.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
+        },
+        {
+            "title": "Koordinaatisto ja perusmuodot.",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/aihe2.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
         }
     ],
     "lessonSections": [
