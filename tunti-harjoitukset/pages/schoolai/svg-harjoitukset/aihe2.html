@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koordinaatisto ja perusmuodot.</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Koordinaatisto ja perusmuodot. | Aihe 2</h1>
+    </header>
+
+    <main>
+        <h3>Ympyrä - circle</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Ympyrä-->
+            <circle 
+                cx="400" cy="300" 
+                r="200" 
+                fill="green"
+            />
+        </svg>
+        <hr>
+
+        <h3>Suorakulmio - rect</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Sininen suorakulmio pyöristetyillä reunoilla-->
+            <rect 
+                x="10" y="10" 
+                width="80" height="60" 
+                rx="10" ry="10"
+                fill="rgb(0, 0, 255)"
+            />
+        </svg>
+        <hr>
+        
+        <h3>Ellipsi - ellipse</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Ellipsi-->
+            <ellipse
+                cx="150" cy="40"
+                rx="40" ry="30"
+                fill="rgb(255, 0, 0)"
+            />
+        </svg>
+        <hr>
+
+        <h3>Viiva - line</h3>
+        <svg viewBox="0 0 800 600">  
+             <!--Viiva-->
+            <line
+                x1="5" y1="5"
+                x2="795" y2="595"
+                stroke="rgb(0, 255, 0)"
+                stroke-width="5"
+            />
+        </svg>
+        <hr>
+
+        <h3>Moniviiva - polyline</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Moniviiva oli polyline-->
+            <polyline 
+                points="10,200 50,150 90,200 150,100" 
+                stroke="orange"
+                stroke-width="10" 
+                fill="none"
+            />  
+        </svg>
+        <hr>
+
+        <h3>Monikulmio - polygon</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Monikulmio oli polygon-->
+            <polygon 
+                points="400,50 750, 550 50,550" 
+                fill="yellow" 
+                stroke="black"
+                stroke-width="15"
+            />  
+        </svg>
+        <hr>
+
+        <h3>Teksti - text</h3>
+        <svg viewBox="0 0 800 600">  
+            <!--Teksti-->
+            <text 
+                x="50" y="150"
+                font-family="Verdana" 
+                font-size="100" 
+                fill="black">
+                Hei!
+            </text> 
+        </svg>
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>
