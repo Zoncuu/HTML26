@@ -293,6 +293,12 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/aihe3.html",
             "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
+        },
+        {
+            "title": "SVG -lopputyo",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/lopputyo.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
         }
     ],
     "lessonSections": [
