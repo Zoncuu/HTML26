@@ -287,6 +287,12 @@
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/aihe2.html",
             "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
+        },
+        {
+            "title": "SVG:n idea ja HTML",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset/aihe3.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/svg-harjoitukset"
         }
     ],
     "lessonSections": [
