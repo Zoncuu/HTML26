@@ -265,9 +265,21 @@
             "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
         },
         {
+            "title": "Animoitu pallo",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/animoitupallo.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
             "title": "Canva-esimerkki",
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/canvas.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
+            "title": "Canvas-peli",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/canvaspeli.html",
             "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
         },
         {
