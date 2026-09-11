@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animoitu pallo</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Animoitu putoava pallo</h1>
+    </header>
+
+    <main> 
+        <canvas 
+            id="piirtoAlusta" 
+            width="800" 
+            height="600">
+        </canvas>  
+        <script>
+            const canvas = document.getElementById("piirtoAlusta");
+            const konteksti = canvas.getContext("2d");
+
+            let x = 100;
+            let y = 100;
+            let vx = 4;
+            let vy = 2.1;
+
+            const sade = 25;
+
+            function animoi() {
+                // Päivitä sijainti
+                x = x + vx;
+                y = y + vy;
+
+                // Reunatarkistus
+                if (x - sade < 0 || x + sade > canvas.width) {
+                    vx = -vx;
+                }
+
+                if (y - sade < 0 || y + sade > canvas.height) {
+                    vy = -vy;
+                }
+
+                // Tyhjennä canvas
+                konteksti.clearRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                // Piirrä pallo
+                konteksti.beginPath();
+                konteksti.arc(
+                    x,
+                    y,
+                    sade,
+                    0,
+                    Math.PI * 2
+                );
+                konteksti.fillStyle = "red";
+                konteksti.fill();
+
+                requestAnimationFrame(animoi);
+            }
+
+            animoi();
+        </script>
+    </main>
+
+    <footer>
+        <a 
+            href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Canvas-peli</title>
+
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Canvaharjoitus | Peli</h1>
+    </header>
+
+    <main>
+
+        <canvas
+            id="piirtoAlusta"
+            width="800"
+            height="600">
+        </canvas>
+
+        <script>
+
+            const canvas = document.getElementById("piirtoAlusta");
+            const konteksti = canvas.getContext("2d");
+
+
+            // =========================
+            // PELIN TILA
+            // =========================
+
+            let pelitila = "aloitus";
+
+
+            // =========================
+            // HEDELMÄT
+            // =========================
+
+            const hedelmat = [
+                {
+                    nimi: "banaani",
+                    nopeus: 1,
+                    pisteet: 10
+                },
+
+                {
+                    nimi: "omena",
+                    nopeus: 2,
+                    pisteet: 20
+                },
+
+                {
+                    nimi: "appelsiini",
+                    nopeus: 3,
+                    pisteet: 30
+                },
+
+                {
+                    nimi: "paaryna",
+                    nopeus: 4,
+                    pisteet: 40
+                },
+
+                {
+                    nimi: "mansikka",
+                    nopeus: 5,
+                    pisteet: 50
+                }
+            ];
+
+
+            let nykyinenHedelma = null;
+
+
+            // =========================
+            // PISTEET JA ELÄMÄT
+            // =========================
+
+            let pisteet = 0;
+            let elamat = 5;
+
+
+            // =========================
+            // PELAAJA
+            // =========================
+
+            let pelaajaX = 400;
+
+            // Vene nostettu hieman ylemmäs
+            let pelaajaY = 470;
+
+            let vasenPainettu = false;
+            let oikeaPainettu = false;
+
+            const pelaajaNopeus = 5;
+
+
+
+            // =========================
+            // NÄPPÄIMET
+            // =========================
+
+            document.addEventListener("keydown", function(event) {
+
+                if (
+                    event.key === "ArrowLeft" ||
+                    event.key === "ArrowRight"
+                ) {
+                    event.preventDefault();
+                }
+
+
+                // Aloitetaan peli
+                if (
+                    event.key === "Enter" &&
+                    pelitila === "aloitus"
+                ) {
+                    aloitaUusiPeli();
+                }
+
+
+                // Retry
+                if (
+                    event.key === "Enter" &&
+                    pelitila === "gameover"
+                ) {
+                    aloitaUusiPeli();
+                }
+
+
+                if (event.key === "ArrowLeft") {
+                    vasenPainettu = true;
+                }
+
+
+                if (event.key === "ArrowRight") {
+                    oikeaPainettu = true;
+                }
+
+            });
+
+
+            document.addEventListener("keyup", function(event) {
+
+                if (event.key === "ArrowLeft") {
+                    vasenPainettu = false;
+                }
+
+
+                if (event.key === "ArrowRight") {
+                    oikeaPainettu = false;
+                }
+
+            });
+
+
+
+            // =========================
+            // UUDEN PELIN ALOITUS
+            // =========================
+
+            function aloitaUusiPeli() {
+
+                pisteet = 0;
+
+                elamat = 5;
+
+                pelaajaX = 400;
+
+                vasenPainettu = false;
+
+                oikeaPainettu = false;
+
+                nykyinenHedelma = null;
+
+                pelitila = "peli";
+
+                luoUusiHedelma();
+            }
+
+
+
+            // =========================
+            // TAUSTA
+            // =========================
+
+            function piirraTausta(ctx) {
+
+                const gradientti = ctx.createLinearGradient(
+                    0,
+                    0,
+                    0,
+                    canvas.height
+                );
+
+                gradientti.addColorStop(
+                    0,
+                    "#65B8FF"
+                );
+
+                gradientti.addColorStop(
+                    1,
+                    "#D9F3FF"
+                );
+
+                ctx.fillStyle = gradientti;
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+            }
+
+
+
+            // =========================
+            // PELAAJA
+            // =========================
+
+            function piirraPelaaja(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                // VENE
+                ctx.beginPath();
+
+                ctx.moveTo(-55, 10);
+                ctx.lineTo(55, 10);
+                ctx.lineTo(40, 35);
+                ctx.lineTo(-40, 35);
+
+                ctx.closePath();
+
+                ctx.fillStyle = "#8B4513";
+                ctx.fill();
+
+                ctx.strokeStyle = "#5D2E0C";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+
+                // Veneen yläreuna
+                ctx.beginPath();
+
+                ctx.moveTo(-55, 10);
+                ctx.lineTo(55, 10);
+
+                ctx.strokeStyle = "#D28B47";
+                ctx.lineWidth = 5;
+
+                ctx.stroke();
+
+
+                // HAHMON VARTALO
+                ctx.beginPath();
+
+                ctx.rect(
+                    -12,
+                    -25,
+                    24,
+                    35
+                );
+
+                ctx.fillStyle = "#E53935";
+
+                ctx.fill();
+
+
+                // HAHMON PÄÄ
+                ctx.beginPath();
+
+                ctx.arc(
+                    0,
+                    -40,
+                    15,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fillStyle = "#F2C49B";
+
+                ctx.fill();
+
+
+                // HIUKSET
+                ctx.beginPath();
+
+                ctx.arc(
+                    0,
+                    -43,
+                    15,
+                    Math.PI,
+                    Math.PI * 2
+                );
+
+                ctx.fillStyle = "#5D4037";
+
+                ctx.fill();
+
+
+                // SILMÄT
+                ctx.fillStyle = "#222";
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    -5,
+                    -40,
+                    1.5,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    5,
+                    -40,
+                    1.5,
+                    0,
+                    Math.PI * 2
+                );
+
+                ctx.fill();
+
+
+                // KÄDET
+                ctx.strokeStyle = "#F2C49B";
+                ctx.lineWidth = 5;
+                ctx.lineCap = "round";
+
+                ctx.beginPath();
+
+                ctx.moveTo(-10, -18);
+                ctx.lineTo(-25, 0);
+
+                ctx.moveTo(10, -18);
+                ctx.lineTo(25, 0);
+
+                ctx.stroke();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // VESI
+            // =========================
+
+            function piirraVesi(ctx) {
+
+                const vedenAlku = 500;
+
+
+                const vesiGradientti =
+                    ctx.createLinearGradient(
+                        0,
+                        vedenAlku,
+                        0,
+                        canvas.height
+                    );
+
+
+                vesiGradientti.addColorStop(
+                    0,
+                    "#29B6F6"
+                );
+
+                vesiGradientti.addColorStop(
+                    1,
+                    "#0277BD"
+                );
+
+
+                ctx.fillStyle = vesiGradientti;
+
+
+                ctx.fillRect(
+                    0,
+                    vedenAlku,
+                    canvas.width,
+                    canvas.height - vedenAlku
+                );
+
+
+                // Aallot
+                ctx.beginPath();
+
+
+                for (
+                    let x = 0;
+                    x <= canvas.width;
+                    x += 40
+                ) {
+
+                    ctx.moveTo(
+                        x,
+                        vedenAlku
+                    );
+
+
+                    ctx.quadraticCurveTo(
+                        x + 10,
+                        vedenAlku - 6,
+                        x + 20,
+                        vedenAlku
+                    );
+
+
+                    ctx.quadraticCurveTo(
+                        x + 30,
+                        vedenAlku + 6,
+                        x + 40,
+                        vedenAlku
+                    );
+                }
+
+
+                ctx.strokeStyle = "#E1F5FE";
+                ctx.lineWidth = 3;
+
+                ctx.stroke();
+            }
+
+
+
+            // =========================
+            // BANAANI
+            // =========================
+
+            function piirraBanaani(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+                ctx.rotate(
+                    25 * Math.PI / 180
+                );
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    -28,
+                    -10
+                );
+
+
+                ctx.bezierCurveTo(
+                    -15, 18,
+                    17, 20,
+                    30, -7
+                );
+
+
+                ctx.bezierCurveTo(
+                    25, -2,
+                    20, 0,
+                    15, 1
+                );
+
+
+                ctx.bezierCurveTo(
+                    0, 7,
+                    -15, 1,
+                    -28, -10
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle = "#FFD92F";
+                ctx.fill();
+
+
+                ctx.strokeStyle = "#C99B00";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+
+                // Sisäinen kaari
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    -20,
+                    -5
+                );
+
+
+                ctx.bezierCurveTo(
+                    -5, 8,
+                    12, 10,
+                    23, -2
+                );
+
+
+                ctx.strokeStyle = "#E0B000";
+                ctx.lineWidth = 1.5;
+
+                ctx.stroke();
+
+
+                // Vasen pää
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    -28,
+                    -10
+                );
+
+                ctx.lineTo(
+                    -33,
+                    -15
+                );
+
+                ctx.lineTo(
+                    -30,
+                    -18
+                );
+
+
+                ctx.strokeStyle = "#6B4423";
+                ctx.lineWidth = 3;
+
+                ctx.stroke();
+
+
+                // Oikea pää
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    29,
+                    -7
+                );
+
+                ctx.lineTo(
+                    35,
+                    -13
+                );
+
+                ctx.lineTo(
+                    38,
+                    -11
+                );
+
+
+                ctx.strokeStyle = "#6B4423";
+                ctx.lineWidth = 3;
+
+                ctx.stroke();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // OMENA
+            // =========================
+
+            function piirraOmena(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    -18
+                );
+
+
+                ctx.bezierCurveTo(
+                    -25, -28,
+                    -30, 5,
+                    -18, 20
+                );
+
+
+                ctx.bezierCurveTo(
+                    -8, 30,
+                    0, 24,
+                    0, 24
+                );
+
+
+                ctx.bezierCurveTo(
+                    0, 24,
+                    8, 30,
+                    18, 20
+                );
+
+
+                ctx.bezierCurveTo(
+                    30, 5,
+                    25, -28,
+                    0, -18
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle = "#E53935";
+
+                ctx.fill();
+
+
+                ctx.strokeStyle = "#B71C1C";
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                // Kanta
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    -18
+                );
+
+                ctx.lineTo(
+                    3,
+                    -30
+                );
+
+
+                ctx.strokeStyle = "#6B4423";
+                ctx.lineWidth = 4;
+
+                ctx.stroke();
+
+
+                // Lehti
+                ctx.beginPath();
+
+                ctx.ellipse(
+                    11,
+                    -27,
+                    9,
+                    4,
+                    -0.5,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle = "#4CAF50";
+
+                ctx.fill();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // APPELSIINI
+            // =========================
+
+            function piirraAppelsiini(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                ctx.beginPath();
+
+                ctx.arc(
+                    0,
+                    0,
+                    24,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle = "#FF9800";
+
+                ctx.fill();
+
+
+                ctx.strokeStyle = "#E67E00";
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                // Kanta
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    -23
+                );
+
+                ctx.lineTo(
+                    2,
+                    -29
+                );
+
+
+                ctx.strokeStyle = "#6B4423";
+                ctx.lineWidth = 3;
+
+                ctx.stroke();
+
+
+                // Lehti
+                ctx.beginPath();
+
+                ctx.ellipse(
+                    10,
+                    -27,
+                    9,
+                    4,
+                    -0.5,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle = "#4CAF50";
+
+                ctx.fill();
+
+
+                // Korostus
+                ctx.beginPath();
+
+                ctx.arc(
+                    -8,
+                    -8,
+                    4,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle = "#FFB74D";
+
+                ctx.fill();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // PÄÄRYNÄ
+            // =========================
+
+            function piirraPaaryna(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    -25
+                );
+
+
+                ctx.bezierCurveTo(
+                    -8, -20,
+                    -9, -10,
+                    -15, -3
+                );
+
+
+                ctx.bezierCurveTo(
+                    -30, 12,
+                    -20, 30,
+                    0, 30
+                );
+
+
+                ctx.bezierCurveTo(
+                    20, 30,
+                    30, 12,
+                    15, -3
+                );
+
+
+                ctx.bezierCurveTo(
+                    9, -10,
+                    8, -20,
+                    0, -25
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle = "#B7D94C";
+
+                ctx.fill();
+
+
+                ctx.strokeStyle = "#7EA42A";
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                // Kanta
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    -24
+                );
+
+                ctx.lineTo(
+                    4,
+                    -34
+                );
+
+
+                ctx.strokeStyle = "#6B4423";
+                ctx.lineWidth = 4;
+
+                ctx.stroke();
+
+
+                // Lehti
+                ctx.beginPath();
+
+                ctx.ellipse(
+                    12,
+                    -31,
+                    10,
+                    4,
+                    -0.5,
+                    0,
+                    Math.PI * 2
+                );
+
+
+                ctx.fillStyle = "#4CAF50";
+
+                ctx.fill();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // MANSIKKA
+            // =========================
+
+            function piirraMansikka(ctx, x, y) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    28
+                );
+
+
+                ctx.bezierCurveTo(
+                    -8, 20,
+                    -25, 5,
+                    -20, -12
+                );
+
+
+                ctx.bezierCurveTo(
+                    -12, -25,
+                    12, -25,
+                    20, -12
+                );
+
+
+                ctx.bezierCurveTo(
+                    25, 5,
+                    8, 20,
+                    0, 28
+                );
+
+
+                ctx.closePath();
+
+
+                ctx.fillStyle = "#E53935";
+
+                ctx.fill();
+
+
+                ctx.strokeStyle = "#B71C1C";
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                // Lehdet
+                ctx.fillStyle = "#4CAF50";
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    -18,
+                    -15
+                );
+
+                ctx.lineTo(
+                    -8,
+                    -25
+                );
+
+                ctx.lineTo(
+                    -2,
+                    -16
+                );
+
+                ctx.lineTo(
+                    5,
+                    -27
+                );
+
+                ctx.lineTo(
+                    9,
+                    -16
+                );
+
+                ctx.lineTo(
+                    20,
+                    -22
+                );
+
+                ctx.lineTo(
+                    16,
+                    -10
+                );
+
+                ctx.closePath();
+
+                ctx.fill();
+
+
+                // Siemenet
+                ctx.fillStyle = "#FFE082";
+
+
+                const siemenet = [
+                    [-8, -5],
+                    [7, -4],
+                    [-2, 6],
+                    [-10, 10],
+                    [9, 11],
+                    [0, 18]
+                ];
+
+
+                for (
+                    let i = 0;
+                    i < siemenet.length;
+                    i++
+                ) {
+
+                    ctx.beginPath();
+
+
+                    ctx.ellipse(
+                        siemenet[i][0],
+                        siemenet[i][1],
+                        1.5,
+                        2.5,
+                        0,
+                        0,
+                        Math.PI * 2
+                    );
+
+
+                    ctx.fill();
+                }
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // UUDEN HEDELMÄN LUOMINEN
+            // =========================
+
+            function luoUusiHedelma() {
+
+                const satunnainenIndeksi =
+                    Math.floor(
+                        Math.random() *
+                        hedelmat.length
+                    );
+
+
+                const valittuHedelma =
+                    hedelmat[satunnainenIndeksi];
+
+
+                nykyinenHedelma = {
+
+                    nimi:
+                        valittuHedelma.nimi,
+
+                    nopeus:
+                        valittuHedelma.nopeus,
+
+                    pisteet:
+                        valittuHedelma.pisteet,
+
+
+                    // Satunnainen x 30–770
+                    x:
+                        Math.random() * 740 + 30,
+
+
+                    // Hieman ruudun yläpuolelta
+                    y:
+                        -40
+                };
+            }
+
+
+
+            // =========================
+            // TÖRMÄYSTARKISTUS
+            // =========================
+
+            function tarkistaKiinniotto() {
+
+                if (nykyinenHedelma === null) {
+                    return false;
+                }
+
+
+                // Veneen rajat
+                const veneVasen =
+                    pelaajaX - 55;
+
+                const veneOikea =
+                    pelaajaX + 55;
+
+                const veneY =
+                    pelaajaY + 10;
+
+
+                // Arvio hedelmän koosta
+                const hedelmanPuolikoko = 25;
+
+
+                const hedelmaVasen =
+                    nykyinenHedelma.x -
+                    hedelmanPuolikoko;
+
+
+                const hedelmaOikea =
+                    nykyinenHedelma.x +
+                    hedelmanPuolikoko;
+
+
+                const hedelmaAla =
+                    nykyinenHedelma.y +
+                    hedelmanPuolikoko;
+
+
+                // Osuuko hedelmä veneeseen?
+                const osuuVaakasuunnassa =
+                    hedelmaOikea > veneVasen &&
+                    hedelmaVasen < veneOikea;
+
+
+                const osuuPystysuunnassa =
+                    hedelmaAla >= veneY &&
+                    nykyinenHedelma.y <
+                    veneY + 25;
+
+
+                if (
+                    osuuVaakasuunnassa &&
+                    osuuPystysuunnassa
+                ) {
+
+                    return true;
+                }
+
+
+                return false;
+            }
+
+
+
+            // =========================
+            // HEDELMÄN PÄIVITYS
+            // =========================
+
+            function paivitaHedelma() {
+
+                if (nykyinenHedelma === null) {
+                    luoUusiHedelma();
+                }
+
+
+                // Pudotetaan hedelmää
+                nykyinenHedelma.y +=
+                    nykyinenHedelma.nopeus;
+
+
+                // =====================
+                // HEDELMÄ NAPATTIIN
+                // =====================
+
+                if (tarkistaKiinniotto()) {
+
+                    // Lisätään kyseisen hedelmän pisteet
+                    pisteet +=
+                        nykyinenHedelma.pisteet;
+
+
+                    // Luodaan seuraava
+                    luoUusiHedelma();
+
+                    return;
+                }
+
+
+                // =====================
+                // HEDELMÄ MENI OHI
+                // =====================
+
+                if (
+                    nykyinenHedelma.y >
+                    canvas.height + 40
+                ) {
+
+                    // Menetetään yksi elämä
+                    elamat--;
+
+
+                    // Jos elämiä ei enää ole
+                    if (elamat <= 0) {
+
+                        elamat = 0;
+
+                        nykyinenHedelma = null;
+
+                        pelitila = "gameover";
+
+                        return;
+                    }
+
+
+                    // Muuten seuraava hedelmä
+                    luoUusiHedelma();
+                }
+            }
+
+
+
+            // =========================
+            // PUTOAVAN HEDELMÄN PIIRTO
+            // =========================
+
+            function piirraNykyinenHedelma(ctx) {
+
+                if (nykyinenHedelma === null) {
+                    return;
+                }
+
+
+                if (
+                    nykyinenHedelma.nimi ===
+                    "banaani"
+                ) {
+
+                    piirraBanaani(
+                        ctx,
+                        nykyinenHedelma.x,
+                        nykyinenHedelma.y
+                    );
+
+                }
+
+
+                else if (
+                    nykyinenHedelma.nimi ===
+                    "omena"
+                ) {
+
+                    piirraOmena(
+                        ctx,
+                        nykyinenHedelma.x,
+                        nykyinenHedelma.y
+                    );
+
+                }
+
+
+                else if (
+                    nykyinenHedelma.nimi ===
+                    "appelsiini"
+                ) {
+
+                    piirraAppelsiini(
+                        ctx,
+                        nykyinenHedelma.x,
+                        nykyinenHedelma.y
+                    );
+
+                }
+
+
+                else if (
+                    nykyinenHedelma.nimi ===
+                    "paaryna"
+                ) {
+
+                    piirraPaaryna(
+                        ctx,
+                        nykyinenHedelma.x,
+                        nykyinenHedelma.y
+                    );
+
+                }
+
+
+                else if (
+                    nykyinenHedelma.nimi ===
+                    "mansikka"
+                ) {
+
+                    piirraMansikka(
+                        ctx,
+                        nykyinenHedelma.x,
+                        nykyinenHedelma.y
+                    );
+
+                }
+            }
+
+
+
+            // =========================
+            // PISTEET
+            // =========================
+
+            function piirraPisteet(ctx) {
+
+                ctx.font =
+                    "bold 30px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 3;
+
+
+                ctx.strokeText(
+                    "Pisteet: " + pisteet,
+                    15,
+                    35
+                );
+
+
+                ctx.fillStyle =
+                    "white";
+
+
+                ctx.fillText(
+                    "Pisteet: " + pisteet,
+                    15,
+                    35
+                );
+            }
+
+
+
+            // =========================
+            // SYDÄN
+            // =========================
+
+            function piirraSydan(
+                ctx,
+                x,
+                y,
+                aktiivinen
+            ) {
+
+                ctx.save();
+
+                ctx.translate(x, y);
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    8
+                );
+
+
+                ctx.bezierCurveTo(
+                    -18, -5,
+                    -20, -20,
+                    -8, -22
+                );
+
+
+                ctx.bezierCurveTo(
+                    -2, -23,
+                    0, -17,
+                    0, -14
+                );
+
+
+                ctx.bezierCurveTo(
+                    0, -17,
+                    2, -23,
+                    8, -22
+                );
+
+
+                ctx.bezierCurveTo(
+                    20, -20,
+                    18, -5,
+                    0, 8
+                );
+
+
+                ctx.closePath();
+
+
+                // Punainen täyttö
+                ctx.fillStyle =
+                    "#E53935";
+
+
+                // Jos elämä on menetetty,
+                // täytön opacity on 0
+                if (aktiivinen) {
+                    ctx.globalAlpha = 1;
+                } else {
+                    ctx.globalAlpha = 0;
+                }
+
+
+                ctx.fill();
+
+
+                // Palautetaan opacity,
+                // jotta stroke näkyy normaalisti
+                ctx.globalAlpha = 1;
+
+
+                // Stroke näkyy aina
+                ctx.strokeStyle =
+                    "#8B0000";
+
+                ctx.lineWidth = 2;
+
+                ctx.stroke();
+
+
+                ctx.restore();
+            }
+
+
+
+            // =========================
+            // ELÄMÄT
+            // =========================
+
+            function piirraElamat(ctx) {
+
+                const alkuX = 620;
+
+                const y = 32;
+
+                const vali = 35;
+
+
+                for (
+                    let i = 0;
+                    i < 5;
+                    i++
+                ) {
+
+                    const aktiivinen =
+                        i < elamat;
+
+
+                    piirraSydan(
+                        ctx,
+                        alkuX + i * vali,
+                        y,
+                        aktiivinen
+                    );
+                }
+            }
+
+
+
+            // =========================
+            // ALOITUSRUUTU
+            // =========================
+
+            function piirraAloitusruutu(ctx) {
+
+                piirraTausta(ctx);
+
+
+                ctx.textAlign = "center";
+
+
+                // Otsikko
+                ctx.font =
+                    "bold 48px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 5;
+
+
+                ctx.strokeText(
+                    "Fruit Catcher",
+                    canvas.width / 2,
+                    230
+                );
+
+
+                ctx.fillStyle =
+                    "white";
+
+
+                ctx.fillText(
+                    "Fruit Catcher",
+                    canvas.width / 2,
+                    230
+                );
+
+
+                // Ohje
+                ctx.font =
+                    "bold 24px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 3;
+
+
+                ctx.strokeText(
+                    "Paina ENTER aloittaaksesi",
+                    canvas.width / 2,
+                    320
+                );
+
+
+                ctx.fillStyle =
+                    "white";
+
+
+                ctx.fillText(
+                    "Paina ENTER aloittaaksesi",
+                    canvas.width / 2,
+                    320
+                );
+
+
+                ctx.textAlign = "start";
+            }
+
+
+
+            // =========================
+            // GAME OVER / RETRY
+            // =========================
+
+            function piirraGameOver(ctx) {
+
+                piirraTausta(ctx);
+
+                piirraVesi(ctx);
+
+
+                // Tumma läpinäkyvä kerros
+                ctx.fillStyle =
+                    "rgba(0, 0, 0, 0.45)";
+
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+
+                ctx.textAlign = "center";
+
+
+                // GAME OVER
+                ctx.font =
+                    "bold 58px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 6;
+
+
+                ctx.strokeText(
+                    "GAME OVER",
+                    canvas.width / 2,
+                    220
+                );
+
+
+                ctx.fillStyle =
+                    "#E53935";
+
+
+                ctx.fillText(
+                    "GAME OVER",
+                    canvas.width / 2,
+                    220
+                );
+
+
+                // Lopulliset pisteet
+                ctx.font =
+                    "bold 30px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 4;
+
+
+                ctx.strokeText(
+                    "Pisteet: " + pisteet,
+                    canvas.width / 2,
+                    290
+                );
+
+
+                ctx.fillStyle =
+                    "white";
+
+
+                ctx.fillText(
+                    "Pisteet: " + pisteet,
+                    canvas.width / 2,
+                    290
+                );
+
+
+                // Retry
+                ctx.font =
+                    "bold 25px Arial";
+
+
+                ctx.strokeStyle =
+                    "black";
+
+                ctx.lineWidth = 3;
+
+
+                ctx.strokeText(
+                    "RETRY - Paina ENTER",
+                    canvas.width / 2,
+                    365
+                );
+
+
+                ctx.fillStyle =
+                    "white";
+
+
+                ctx.fillText(
+                    "RETRY - Paina ENTER",
+                    canvas.width / 2,
+                    365
+                );
+
+
+                ctx.textAlign = "start";
+            }
+
+
+
+            // =========================
+            // PELAAJAN PÄIVITYS
+            // =========================
+
+            function paivitaPelaaja() {
+
+                if (vasenPainettu) {
+
+                    pelaajaX -=
+                        pelaajaNopeus;
+                }
+
+
+                if (oikeaPainettu) {
+
+                    pelaajaX +=
+                        pelaajaNopeus;
+                }
+
+
+                // Vasen reuna
+                if (pelaajaX < 55) {
+
+                    pelaajaX = 55;
+                }
+
+
+                // Oikea reuna
+                if (
+                    pelaajaX >
+                    canvas.width - 55
+                ) {
+
+                    pelaajaX =
+                        canvas.width - 55;
+                }
+            }
+
+
+
+            // =========================
+            // VARSINAISEN PELIN PIIRTO
+            // =========================
+
+            function piirraPeli(ctx) {
+
+                // Tausta
+                piirraTausta(ctx);
+
+
+                // Hedelmä
+                piirraNykyinenHedelma(ctx);
+
+
+                // Vesi
+                piirraVesi(ctx);
+
+
+                // Pelaaja
+                piirraPelaaja(
+                    ctx,
+                    pelaajaX,
+                    pelaajaY
+                );
+
+
+                // Pisteet
+                piirraPisteet(ctx);
+
+
+                // Elämät
+                piirraElamat(ctx);
+            }
+
+
+
+            // =========================
+            // PELILOOPPI
+            // =========================
+
+            function aloitaPeli() {
+
+                // Canvas tyhjäksi
+                konteksti.clearRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+
+                // =====================
+                // ALOITUSRUUTU
+                // =====================
+
+                if (
+                    pelitila ===
+                    "aloitus"
+                ) {
+
+                    piirraAloitusruutu(
+                        konteksti
+                    );
+
+                }
+
+
+                // =====================
+                // VARSINAINEN PELI
+                // =====================
+
+                else if (
+                    pelitila ===
+                    "peli"
+                ) {
+
+                    // Päivitetään pelaaja
+                    paivitaPelaaja();
+
+
+                    // Päivitetään hedelmä
+                    paivitaHedelma();
+
+
+                    // Tarkistetaan muuttuiko
+                    // tila Game Overiksi
+                    if (
+                        pelitila ===
+                        "gameover"
+                    ) {
+
+                        piirraGameOver(
+                            konteksti
+                        );
+
+                    } else {
+
+                        piirraPeli(
+                            konteksti
+                        );
+                    }
+
+                }
+
+
+                // =====================
+                // GAME OVER
+                // =====================
+
+                else if (
+                    pelitila ===
+                    "gameover"
+                ) {
+
+                    piirraGameOver(
+                        konteksti
+                    );
+
+                }
+
+
+                // Seuraava frame
+                requestAnimationFrame(
+                    aloitaPeli
+                );
+            }
+
+
+
+            // =========================
+            // KÄYNNISTYS
+            // =========================
+
+            aloitaPeli();
+
+        </script>
+
+    </main>
+
+
+    <footer>
+
+        <a href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+
+    </footer>
+
+</body>
+</html>
