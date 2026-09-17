@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autopeli</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Canvaharjoitus | Autopeli</h1>
+    </header>
+
+    <main>
+        <canvas id="piirtoAlusta" width="800" height="600"></canvas>
+
+        <p>
+            Pisteet: <span id="pisteet">0</span> |
+            Elämät: <span id="elamat">5</span>
+        </p>
+
+        <script>
+            const canvas = document.getElementById("piirtoAlusta");
+            const konteksti = canvas.getContext("2d");
+
+            let pelitila = "aloitus";
+
+            const autot = [
+                {
+                    nimi: "henkiloautoSininen",
+                    nopeus: 0.4,
+                    leveys: 70,
+                    korkeus: 100
+                },
+                {
+                    nimi: "henkiloautoPunainen",
+                    nopeus: 0.6,
+                    leveys: 70,
+                    korkeus: 100
+                },
+                {
+                    nimi: "urheiluauto",
+                    nopeus: 0.8,
+                    leveys: 72,
+                    korkeus: 105
+                },
+                {
+                    nimi: "maastoauto",
+                    nopeus: 0.3,
+                    leveys: 78,
+                    korkeus: 110
+                },
+                {
+                    nimi: "pakettiauto",
+                    nopeus: 0.1,
+                    leveys: 76,
+                    korkeus: 125
+                },
+                {
+                    nimi: "taksi",
+                    nopeus: 0.5,
+                    leveys: 70,
+                    korkeus: 100
+                },
+                {
+                    nimi: "poliisiauto",
+                    nopeus: 0.6,
+                    leveys: 70,
+                    korkeus: 100
+                },
+                {
+                    nimi: "linjaauto",
+                    nopeus: 0,
+                    leveys: 82,
+                    korkeus: 155
+                },
+                {
+                    nimi: "kuormaauto",
+                    nopeus: -0.1,
+                    leveys: 84,
+                    korkeus: 150
+                },
+                {
+                    nimi: "rekka",
+                    nopeus: -0.2,
+                    leveys: 88,
+                    korkeus: 190
+                }
+            ];
+
+            let liikenneAutot = [];
+
+            const kaistat = [
+                189,
+                329,
+                469,
+                609
+            ];
+
+            let viimeisinAutoAika = 0;
+            let autoSyntyvali = 700;
+            const pieninSyntyvali = 350;
+
+            let pisteet = 0;
+            let elamat = 5;
+
+            const pisteetTeksti = document.getElementById("pisteet");
+            const elamatTeksti = document.getElementById("elamat");
+
+            let pelaajaX = 400;
+            let pelaajaY = 500;
+
+            let vasenPainettu = false;
+            let oikeaPainettu = false;
+
+            const pelaajaNopeus = 7;
+            const pelaajaLeveys = 60;
+            const pelaajaKorkeus = 100;
+
+            let taustaY = 0;
+            let peliNopeus = 3.2;
+            let edellinenAika = 0;
+
+            function paivitaHTMLTiedot() {
+                pisteetTeksti.textContent = pisteet;
+                elamatTeksti.textContent = elamat;
+            }
+
+            document.addEventListener("keydown", function(event) {
+                if (
+                    event.key === "ArrowLeft" ||
+                    event.key === "ArrowRight"
+                ) {
+                    event.preventDefault();
+                }
+
+                if (
+                    event.key === "Enter" &&
+                    pelitila === "aloitus"
+                ) {
+                    aloitaUusiPeli();
+                }
+
+                if (
+                    event.key === "Enter" &&
+                    pelitila === "gameover"
+                ) {
+                    aloitaUusiPeli();
+                }
+
+                if (event.key === "ArrowLeft") {
+                    vasenPainettu = true;
+                }
+
+                if (event.key === "ArrowRight") {
+                    oikeaPainettu = true;
+                }
+            });
+
+            document.addEventListener("keyup", function(event) {
+                if (event.key === "ArrowLeft") {
+                    vasenPainettu = false;
+                }
+
+                if (event.key === "ArrowRight") {
+                    oikeaPainettu = false;
+                }
+            });
+
+            function aloitaUusiPeli() {
+                pisteet = 0;
+                elamat = 5;
+
+                pelaajaX = 400;
+
+                vasenPainettu = false;
+                oikeaPainettu = false;
+
+                liikenneAutot = [];
+
+                viimeisinAutoAika = 0;
+                autoSyntyvali = 700;
+
+                taustaY = 0;
+                peliNopeus = 3.2;
+                edellinenAika = 0;
+
+                pelitila = "peli";
+            }
+
+            // =========================
+            // TAUSTA
+            // =========================
+
+            function piirraTausta(ctx) {
+                ctx.fillStyle = "#5C8D3A";
+                ctx.fillRect(0, 0, 100, canvas.height);
+                ctx.fillRect(700, 0, 100, canvas.height);
+
+                ctx.fillStyle = "#3F3F3F";
+                ctx.fillRect(100, 0, 600, canvas.height);
+
+                ctx.fillStyle = "#666666";
+                ctx.fillRect(100, 0, 15, canvas.height);
+                ctx.fillRect(685, 0, 15, canvas.height);
+
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(115, 0, 5, canvas.height);
+                ctx.fillRect(680, 0, 5, canvas.height);
+
+                ctx.fillStyle = "#F5F5F5";
+
+                for (
+                    let y = -80 + (taustaY % 80);
+                    y < canvas.height;
+                    y += 80
+                ) {
+                    ctx.fillRect(258, y, 4, 45);
+                    ctx.fillRect(398, y, 4, 45);
+                    ctx.fillRect(538, y, 4, 45);
+                }
+
+                ctx.fillStyle = "#777777";
+
+                for (
+                    let y = -60 + (taustaY % 60);
+                    y < canvas.height;
+                    y += 60
+                ) {
+                    ctx.fillRect(91, y, 9, 12);
+                    ctx.fillRect(700, y, 9, 12);
+                }
+
+                ctx.fillStyle = "#707070";
+                ctx.fillRect(94, 0, 6, canvas.height);
+                ctx.fillRect(700, 0, 6, canvas.height);
+
+                ctx.fillStyle = "#C9CED1";
+                ctx.fillRect(91, 0, 5, canvas.height);
+                ctx.fillRect(704, 0, 5, canvas.height);
+
+                ctx.fillStyle = "#F1F3F4";
+                ctx.fillRect(91, 0, 2, canvas.height);
+                ctx.fillRect(707, 0, 2, canvas.height);
+
+                function piirraPensas(x, y, koko) {
+                    ctx.fillStyle = "#2F641C";
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        x,
+                        y,
+                        koko,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+
+                    ctx.fillStyle = "#4E8A2D";
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        x - koko * 0.25,
+                        y - koko * 0.25,
+                        koko * 0.55,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        x + koko * 0.3,
+                        y,
+                        koko * 0.5,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+
+                function piirraRuoho(x, y) {
+                    ctx.strokeStyle = "#376B25";
+                    ctx.lineWidth = 2;
+
+                    ctx.beginPath();
+
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x - 6, y - 10);
+
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x, y - 13);
+
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + 6, y - 10);
+
+                    ctx.stroke();
+                }
+
+                function piirraKukka(x, y) {
+                    ctx.fillStyle = "#FFD54F";
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        x,
+                        y,
+                        3,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+
+                function liikkuvaY(alkuY) {
+                    return (
+                        (alkuY + taustaY + 40) %
+                        680
+                    ) - 40;
+                }
+
+                piirraPensas(40, liikkuvaY(40), 18);
+                piirraPensas(65, liikkuvaY(200), 14);
+                piirraPensas(35, liikkuvaY(360), 17);
+                piirraPensas(65, liikkuvaY(520), 16);
+
+                piirraPensas(755, liikkuvaY(90), 17);
+                piirraPensas(735, liikkuvaY(250), 14);
+                piirraPensas(765, liikkuvaY(410), 18);
+                piirraPensas(740, liikkuvaY(570), 15);
+
+                piirraRuoho(25, liikkuvaY(130));
+                piirraRuoho(70, liikkuvaY(290));
+                piirraRuoho(30, liikkuvaY(450));
+
+                piirraRuoho(750, liikkuvaY(170));
+                piirraRuoho(775, liikkuvaY(330));
+                piirraRuoho(730, liikkuvaY(490));
+
+                piirraKukka(65, liikkuvaY(100));
+                piirraKukka(30, liikkuvaY(260));
+                piirraKukka(70, liikkuvaY(420));
+
+                piirraKukka(740, liikkuvaY(150));
+                piirraKukka(770, liikkuvaY(310));
+                piirraKukka(735, liikkuvaY(470));
+            }
+
+            // =========================
+            // PELAAJAN AUTO
+            // =========================
+
+            function piirraPelaaja(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+
+                ctx.fillRect(-27, -30, 8, 22);
+                ctx.fillRect(19, -30, 8, 22);
+                ctx.fillRect(-27, 18, 8, 22);
+                ctx.fillRect(19, 18, 8, 22);
+
+                ctx.beginPath();
+
+                ctx.moveTo(-18, -45);
+                ctx.lineTo(18, -45);
+                ctx.lineTo(25, -30);
+                ctx.lineTo(25, 35);
+                ctx.lineTo(18, 45);
+                ctx.lineTo(-18, 45);
+                ctx.lineTo(-25, 35);
+                ctx.lineTo(-25, -30);
+
+                ctx.closePath();
+
+                ctx.fillStyle = "#E53935";
+                ctx.fill();
+
+                ctx.strokeStyle = "#8B0000";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.beginPath();
+
+                ctx.moveTo(-15, -25);
+                ctx.lineTo(15, -25);
+                ctx.lineTo(18, -8);
+                ctx.lineTo(-18, -8);
+
+                ctx.closePath();
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fill();
+
+                ctx.strokeStyle = "#333";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+
+                ctx.moveTo(-18, 12);
+                ctx.lineTo(18, 12);
+                ctx.lineTo(15, 28);
+                ctx.lineTo(-15, 28);
+
+                ctx.closePath();
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fill();
+
+                ctx.strokeStyle = "#333";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = "#FFF59D";
+
+                ctx.fillRect(-17, -45, 9, 5);
+                ctx.fillRect(8, -45, 9, 5);
+
+                ctx.fillStyle = "#B71C1C";
+
+                ctx.fillRect(-17, 40, 8, 5);
+                ctx.fillRect(9, 40, 8, 5);
+
+                ctx.restore();
+            }
+
+            // =========================
+            // LIIKENTEEN AUTOT
+            // =========================
+
+            function piirraHenkiloautoSininen(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-25, -25, 7, 18);
+                ctx.fillRect(18, -25, 7, 18);
+                ctx.fillRect(-25, 18, 7, 18);
+                ctx.fillRect(18, 18, 7, 18);
+
+                ctx.fillStyle = "#1976D2";
+                ctx.fillRect(-20, -40, 40, 80);
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-15, -25, 30, 15);
+                ctx.fillRect(-15, 12, 30, 15);
+
+                ctx.fillStyle = "#FFF59D";
+                ctx.fillRect(-15, -40, 8, 5);
+                ctx.fillRect(7, -40, 8, 5);
+
+                ctx.restore();
+            }
+
+            function piirraHenkiloautoPunainen(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-25, -25, 7, 18);
+                ctx.fillRect(18, -25, 7, 18);
+                ctx.fillRect(-25, 18, 7, 18);
+                ctx.fillRect(18, 18, 7, 18);
+
+                ctx.fillStyle = "#D32F2F";
+                ctx.fillRect(-20, -40, 40, 80);
+
+                ctx.fillStyle = "#B3E5FC";
+                ctx.fillRect(-15, -25, 30, 15);
+                ctx.fillRect(-15, 12, 30, 15);
+
+                ctx.fillStyle = "#FFF59D";
+                ctx.fillRect(-15, -40, 8, 5);
+                ctx.fillRect(7, -40, 8, 5);
+
+                ctx.restore();
+            }
+
+            function piirraUrheiluauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-27, -25, 7, 17);
+                ctx.fillRect(20, -25, 7, 17);
+                ctx.fillRect(-27, 17, 7, 17);
+                ctx.fillRect(20, 17, 7, 17);
+
+                ctx.fillStyle = "#F44336";
+
+                ctx.beginPath();
+                ctx.moveTo(-15, -43);
+                ctx.lineTo(15, -43);
+                ctx.lineTo(23, -30);
+                ctx.lineTo(23, 30);
+                ctx.lineTo(15, 40);
+                ctx.lineTo(-15, 40);
+                ctx.lineTo(-23, 30);
+                ctx.lineTo(-23, -30);
+                ctx.closePath();
+
+                ctx.fill();
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-15, -22, 30, 14);
+                ctx.fillRect(-15, 10, 30, 14);
+
+                ctx.fillStyle = "#222";
+                ctx.fillRect(-27, 31, 54, 6);
+
+                ctx.restore();
+            }
+
+            function piirraMaastoauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-30, -30, 9, 22);
+                ctx.fillRect(21, -30, 9, 22);
+                ctx.fillRect(-30, 17, 9, 22);
+                ctx.fillRect(21, 17, 9, 22);
+
+                ctx.fillStyle = "#FF9800";
+                ctx.fillRect(-24, -42, 48, 84);
+
+                ctx.fillStyle = "#FFE0B2";
+                ctx.fillRect(-18, -27, 36, 16);
+                ctx.fillRect(-18, 10, 36, 16);
+
+                ctx.fillStyle = "#333";
+                ctx.fillRect(-20, -5, 40, 4);
+                ctx.fillRect(-20, 3, 40, 4);
+
+                ctx.restore();
+            }
+
+            function piirraPakettiauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-27, -32, 7, 20);
+                ctx.fillRect(20, -32, 7, 20);
+                ctx.fillRect(-27, 25, 7, 20);
+                ctx.fillRect(20, 25, 7, 20);
+
+                ctx.fillStyle = "#ECEFF1";
+                ctx.fillRect(-23, -48, 46, 96);
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-18, -34, 36, 18);
+
+                ctx.strokeStyle = "#777";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-18, 15, 36, 27);
+
+                ctx.beginPath();
+                ctx.moveTo(0, 15);
+                ctx.lineTo(0, 42);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            function piirraTaksi(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-25, -25, 7, 18);
+                ctx.fillRect(18, -25, 7, 18);
+                ctx.fillRect(-25, 18, 7, 18);
+                ctx.fillRect(18, 18, 7, 18);
+
+                ctx.fillStyle = "#FDD835";
+                ctx.fillRect(-20, -40, 40, 80);
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-15, -25, 30, 15);
+                ctx.fillRect(-15, 12, 30, 15);
+
+                ctx.fillStyle = "#222";
+                ctx.fillRect(-8, -4, 16, 8);
+
+                ctx.fillStyle = "white";
+                ctx.font = "7px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText("TAXI", 0, 2);
+
+                ctx.restore();
+            }
+
+            function piirraPoliisiauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-25, -25, 7, 18);
+                ctx.fillRect(18, -25, 7, 18);
+                ctx.fillRect(-25, 18, 7, 18);
+                ctx.fillRect(18, 18, 7, 18);
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(-20, -40, 40, 80);
+
+                ctx.fillStyle = "#1565C0";
+                ctx.fillRect(-20, -5, 40, 15);
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-15, -25, 30, 15);
+                ctx.fillRect(-15, 15, 30, 15);
+
+                ctx.fillStyle = "#1565C0";
+                ctx.fillRect(-11, -2, 11, 6);
+
+                ctx.fillStyle = "#E53935";
+                ctx.fillRect(0, -2, 11, 6);
+
+                ctx.restore();
+            }
+
+            function piirraLinjaauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-31, -50, 8, 22);
+                ctx.fillRect(23, -50, 8, 22);
+                ctx.fillRect(-31, 30, 8, 22);
+                ctx.fillRect(23, 30, 8, 22);
+
+                ctx.fillStyle = "#1E88E5";
+                ctx.fillRect(-27, -60, 54, 120);
+
+                ctx.fillStyle = "#B3E5FC";
+                ctx.fillRect(-21, -50, 42, 20);
+
+                ctx.fillStyle = "#90CAF9";
+                ctx.fillRect(-19, -18, 38, 20);
+                ctx.fillRect(-19, 10, 38, 20);
+
+                ctx.fillStyle = "#FFF59D";
+                ctx.fillRect(-18, -60, 10, 5);
+                ctx.fillRect(8, -60, 10, 5);
+
+                ctx.fillStyle = "#C62828";
+                ctx.fillRect(-18, 55, 10, 5);
+                ctx.fillRect(8, 55, 10, 5);
+
+                ctx.restore();
+            }
+
+            function piirraKuormaauto(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+                ctx.fillRect(-32, -45, 8, 22);
+                ctx.fillRect(24, -45, 8, 22);
+                ctx.fillRect(-32, 30, 8, 22);
+                ctx.fillRect(24, 30, 8, 22);
+
+                ctx.fillStyle = "#388E3C";
+                ctx.fillRect(-27, -55, 54, 38);
+
+                ctx.fillStyle = "#A5D6A7";
+                ctx.fillRect(-21, -47, 42, 16);
+
+                ctx.fillStyle = "#78909C";
+                ctx.fillRect(-28, -12, 56, 72);
+
+                ctx.strokeStyle = "#455A64";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(-28, -12, 56, 72);
+
+                ctx.restore();
+            }
+
+            function piirraRekka(ctx, x, y) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.fillStyle = "#111";
+
+                ctx.fillRect(-34, -65, 8, 22);
+                ctx.fillRect(26, -65, 8, 22);
+                ctx.fillRect(-34, 15, 8, 22);
+                ctx.fillRect(26, 15, 8, 22);
+                ctx.fillRect(-34, 50, 8, 22);
+                ctx.fillRect(26, 50, 8, 22);
+
+                ctx.fillStyle = "#EF5350";
+                ctx.fillRect(-29, -72, 58, 48);
+
+                ctx.fillStyle = "#B3E5FC";
+                ctx.fillRect(-22, -62, 44, 18);
+
+                ctx.fillStyle = "#CFD8DC";
+                ctx.fillRect(-31, -18, 62, 100);
+
+                ctx.strokeStyle = "#78909C";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(-31, -18, 62, 100);
+
+                ctx.fillStyle = "#D32F2F";
+                ctx.fillRect(-23, 76, 10, 6);
+                ctx.fillRect(13, 76, 10, 6);
+
+                ctx.restore();
+            }
+
+            function piirraLiikenneAuto(ctx, auto) {
+                ctx.save();
+
+                ctx.translate(auto.x, auto.y);
+                ctx.scale(1.3, 1.3);
+
+                if (auto.nimi === "henkiloautoSininen") {
+                    piirraHenkiloautoSininen(ctx, 0, 0);
+                }
+                else if (auto.nimi === "henkiloautoPunainen") {
+                    piirraHenkiloautoPunainen(ctx, 0, 0);
+                }
+                else if (auto.nimi === "urheiluauto") {
+                    piirraUrheiluauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "maastoauto") {
+                    piirraMaastoauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "pakettiauto") {
+                    piirraPakettiauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "taksi") {
+                    piirraTaksi(ctx, 0, 0);
+                }
+                else if (auto.nimi === "poliisiauto") {
+                    piirraPoliisiauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "linjaauto") {
+                    piirraLinjaauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "kuormaauto") {
+                    piirraKuormaauto(ctx, 0, 0);
+                }
+                else if (auto.nimi === "rekka") {
+                    piirraRekka(ctx, 0, 0);
+                }
+
+                ctx.restore();
+            }
+
+            // =========================
+            // LIIKENTEEN LUOMINEN
+            // =========================
+
+            function luoLiikenneAuto() {
+                const vapaatKaistat = [];
+
+                for (let i = 0; i < kaistat.length; i++) {
+                    const kaistaX = kaistat[i];
+                    let kaistaVapaa = true;
+
+                    for (let j = 0; j < liikenneAutot.length; j++) {
+                        const auto = liikenneAutot[j];
+
+                        if (
+                            auto.x === kaistaX &&
+                            auto.y < 180
+                        ) {
+                            kaistaVapaa = false;
+                        }
+                    }
+
+                    if (kaistaVapaa) {
+                        vapaatKaistat.push(kaistaX);
+                    }
+                }
+
+                if (vapaatKaistat.length === 0) {
+                    return;
+                }
+
+                // Yleensä yksi auto, välillä kaksi samalla kertaa
+                let autojenMaara = 1;
+
+                if (
+                    vapaatKaistat.length >= 2 &&
+                    Math.random() < 0.35
+                ) {
+                    autojenMaara = 2;
+                }
+
+                for (let i = 0; i < autojenMaara; i++) {
+                    if (vapaatKaistat.length === 0) {
+                        break;
+                    }
+
+                    const satunnainenAuto = autot[
+                        Math.floor(Math.random() * autot.length)
+                    ];
+
+                    const kaistaIndeksi =
+                        Math.floor(
+                            Math.random() * vapaatKaistat.length
+                        );
+
+                    const satunnainenKaista =
+                        vapaatKaistat[kaistaIndeksi];
+
+                    vapaatKaistat.splice(
+                        kaistaIndeksi,
+                        1
+                    );
+
+                    const uusiAuto = {
+                        nimi: satunnainenAuto.nimi,
+                        nopeus: satunnainenAuto.nopeus,
+                        leveys: satunnainenAuto.leveys,
+                        korkeus: satunnainenAuto.korkeus,
+                        x: satunnainenKaista,
+                        y: -120
+                    };
+
+                    liikenneAutot.push(uusiAuto);
+                }
+            }
+
+            // =========================
+            // TÖRMÄYSTARKISTUS
+            // =========================
+
+            function tarkistaTormays(auto) {
+                const pelaajaVasen =
+                    pelaajaX - pelaajaLeveys / 2;
+
+                const pelaajaOikea =
+                    pelaajaX + pelaajaLeveys / 2;
+
+                const pelaajaYla =
+                    pelaajaY - pelaajaKorkeus / 2;
+
+                const pelaajaAla =
+                    pelaajaY + pelaajaKorkeus / 2;
+
+                const autoVasen =
+                    auto.x - auto.leveys / 2;
+
+                const autoOikea =
+                    auto.x + auto.leveys / 2;
+
+                const autoYla =
+                    auto.y - auto.korkeus / 2;
+
+                const autoAla =
+                    auto.y + auto.korkeus / 2;
+
+                const osuuX =
+                    pelaajaVasen < autoOikea &&
+                    pelaajaOikea > autoVasen;
+
+                const osuuY =
+                    pelaajaYla < autoAla &&
+                    pelaajaAla > autoYla;
+
+                return osuuX && osuuY;
+            }
+
+            // =========================
+            // LIIKENTEEN PÄIVITYS
+            // =========================
+
+            function paivitaLiikenne(aika) {
+                if (
+                    aika - viimeisinAutoAika >=
+                    autoSyntyvali
+                ) {
+                    luoLiikenneAuto();
+                    viimeisinAutoAika = aika;
+                }
+
+                for (
+                    let i = liikenneAutot.length - 1;
+                    i >= 0;
+                    i--
+                ) {
+                    const auto = liikenneAutot[i];
+
+                    let liikkumisNopeus =
+                        peliNopeus + auto.nopeus;
+
+                    let edessaOlevaAuto = null;
+                    let pieninVali = Infinity;
+
+                    for (
+                        let j = 0;
+                        j < liikenneAutot.length;
+                        j++
+                    ) {
+                        if (i === j) {
+                            continue;
+                        }
+
+                        const toinenAuto =
+                            liikenneAutot[j];
+
+                        if (
+                            toinenAuto.x === auto.x &&
+                            toinenAuto.y > auto.y
+                        ) {
+                            const vali =
+                                toinenAuto.y -
+                                auto.y;
+
+                            if (vali < pieninVali) {
+                                pieninVali = vali;
+                                edessaOlevaAuto =
+                                    toinenAuto;
+                            }
+                        }
+                    }
+
+                    if (
+                        edessaOlevaAuto !== null &&
+                        pieninVali < 170
+                    ) {
+                        liikkumisNopeus =
+                            peliNopeus +
+                            edessaOlevaAuto.nopeus;
+                    }
+
+                    auto.y += liikkumisNopeus;
+
+                    if (tarkistaTormays(auto)) {
+                        elamat--;
+
+                        liikenneAutot.splice(
+                            i,
+                            1
+                        );
+
+                        if (elamat <= 0) {
+                            elamat = 0;
+                            pelitila = "gameover";
+                            return;
+                        }
+
+                        continue;
+                    }
+
+                    if (
+                        auto.y >
+                        canvas.height +
+                        auto.korkeus / 2
+                    ) {
+                        pisteet++;
+
+                        liikenneAutot.splice(
+                            i,
+                            1
+                        );
+                    }
+                }
+            }
+
+            function piirraLiikenne(ctx) {
+                for (
+                    let i = 0;
+                    i < liikenneAutot.length;
+                    i++
+                ) {
+                    piirraLiikenneAuto(
+                        ctx,
+                        liikenneAutot[i]
+                    );
+                }
+            }
+
+            // =========================
+            // PELAAJAN PÄIVITYS
+            // =========================
+
+            function paivitaPelaaja() {
+                if (vasenPainettu) {
+                    pelaajaX -= pelaajaNopeus;
+                }
+
+                if (oikeaPainettu) {
+                    pelaajaX += pelaajaNopeus;
+                }
+
+                if (pelaajaX < 150) {
+                    pelaajaX = 150;
+                }
+
+                if (pelaajaX > 650) {
+                    pelaajaX = 650;
+                }
+            }
+
+            // =========================
+            // VAIKEUSTASO JA TAUSTA
+            // =========================
+
+            function paivitaTausta(deltaAika) {
+                peliNopeus +=
+                    0.000025 * deltaAika;
+
+                taustaY +=
+                    peliNopeus * 2;
+
+                autoSyntyvali -=
+                    0.003 * deltaAika;
+
+                if (
+                    autoSyntyvali <
+                    pieninSyntyvali
+                ) {
+                    autoSyntyvali =
+                        pieninSyntyvali;
+                }
+            }
+
+            // =========================
+            // PISTEET JA ELÄMÄT
+            // =========================
+
+            function piirraPisteet(ctx) {
+                ctx.font = "bold 30px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 3;
+
+                ctx.strokeText(
+                    "Pisteet: " + pisteet,
+                    15,
+                    35
+                );
+
+                ctx.fillStyle = "white";
+
+                ctx.fillText(
+                    "Pisteet: " + pisteet,
+                    15,
+                    35
+                );
+            }
+
+            function piirraSydan(
+                ctx,
+                x,
+                y,
+                aktiivinen
+            ) {
+                ctx.save();
+                ctx.translate(x, y);
+
+                ctx.beginPath();
+                ctx.moveTo(0, 8);
+
+                ctx.bezierCurveTo(
+                    -18,
+                    -5,
+                    -20,
+                    -20,
+                    -8,
+                    -22
+                );
+
+                ctx.bezierCurveTo(
+                    -2,
+                    -23,
+                    0,
+                    -17,
+                    0,
+                    -14
+                );
+
+                ctx.bezierCurveTo(
+                    0,
+                    -17,
+                    2,
+                    -23,
+                    8,
+                    -22
+                );
+
+                ctx.bezierCurveTo(
+                    20,
+                    -20,
+                    18,
+                    -5,
+                    0,
+                    8
+                );
+
+                ctx.closePath();
+
+                if (aktiivinen) {
+                    ctx.fillStyle = "#E53935";
+                }
+                else {
+                    ctx.fillStyle = "#555555";
+                }
+
+                ctx.fill();
+
+                ctx.strokeStyle = "#8B0000";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            function piirraElamat(ctx) {
+                const alkuX = 620;
+                const y = 32;
+                const vali = 35;
+
+                for (
+                    let i = 0;
+                    i < 5;
+                    i++
+                ) {
+                    piirraSydan(
+                        ctx,
+                        alkuX + i * vali,
+                        y,
+                        i < elamat
+                    );
+                }
+            }
+
+            // =========================
+            // ALOITUSRUUTU
+            // =========================
+
+            function piirraAloitusruutu(ctx) {
+                piirraTausta(ctx);
+
+                ctx.textAlign = "center";
+
+                ctx.font = "bold 48px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 5;
+
+                ctx.strokeText(
+                    "Highway Escape",
+                    canvas.width / 2,
+                    230
+                );
+
+                ctx.fillStyle = "white";
+
+                ctx.fillText(
+                    "Highway Escape",
+                    canvas.width / 2,
+                    230
+                );
+
+                ctx.font = "bold 24px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 3;
+
+                ctx.strokeText(
+                    "Paina ENTER aloittaaksesi",
+                    canvas.width / 2,
+                    320
+                );
+
+                ctx.fillStyle = "white";
+
+                ctx.fillText(
+                    "Paina ENTER aloittaaksesi",
+                    canvas.width / 2,
+                    320
+                );
+
+                ctx.textAlign = "start";
+            }
+
+            // =========================
+            // GAME OVER
+            // =========================
+
+            function piirraGameOver(ctx) {
+                piirraTausta(ctx);
+
+                ctx.fillStyle =
+                    "rgba(0, 0, 0, 0.45)";
+
+                ctx.fillRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                ctx.textAlign = "center";
+
+                ctx.font = "bold 58px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 6;
+
+                ctx.strokeText(
+                    "GAME OVER",
+                    canvas.width / 2,
+                    220
+                );
+
+                ctx.fillStyle = "#E53935";
+
+                ctx.fillText(
+                    "GAME OVER",
+                    canvas.width / 2,
+                    220
+                );
+
+                ctx.font = "bold 30px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 4;
+
+                ctx.strokeText(
+                    "Pisteet: " + pisteet,
+                    canvas.width / 2,
+                    290
+                );
+
+                ctx.fillStyle = "white";
+
+                ctx.fillText(
+                    "Pisteet: " + pisteet,
+                    canvas.width / 2,
+                    290
+                );
+
+                ctx.font = "bold 25px Arial";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 3;
+
+                ctx.strokeText(
+                    "RESTART GAME - Paina ENTER",
+                    canvas.width / 2,
+                    365
+                );
+
+                ctx.fillStyle = "white";
+
+                ctx.fillText(
+                    "RESTART GAME - Paina ENTER",
+                    canvas.width / 2,
+                    365
+                );
+
+                ctx.textAlign = "start";
+            }
+
+            // =========================
+            // PELIN PIIRTÄMINEN
+            // =========================
+
+            function piirraPeli(ctx) {
+                piirraTausta(ctx);
+
+                piirraLiikenne(ctx);
+
+                piirraPelaaja(
+                    ctx,
+                    pelaajaX,
+                    pelaajaY
+                );
+
+                piirraPisteet(ctx);
+                piirraElamat(ctx);
+            }
+
+            // =========================
+            // PÄÄSILMUKKA
+            // =========================
+
+            function aloitaPeli(aika) {
+                if (edellinenAika === 0) {
+                    edellinenAika = aika;
+                }
+
+                let deltaAika =
+                    aika - edellinenAika;
+
+                if (deltaAika > 50) {
+                    deltaAika = 50;
+                }
+
+                edellinenAika = aika;
+
+                konteksti.clearRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                if (pelitila === "aloitus") {
+                    piirraAloitusruutu(
+                        konteksti
+                    );
+                }
+
+                else if (pelitila === "peli") {
+                    paivitaPelaaja();
+
+                    paivitaTausta(
+                        deltaAika
+                    );
+
+                    paivitaLiikenne(
+                        aika
+                    );
+
+                    if (
+                        pelitila ===
+                        "gameover"
+                    ) {
+                        piirraGameOver(
+                            konteksti
+                        );
+                    }
+                    else {
+                        piirraPeli(
+                            konteksti
+                        );
+                    }
+                }
+
+                else if (
+                    pelitila === "gameover"
+                ) {
+                    piirraGameOver(
+                        konteksti
+                    );
+                }
+
+                paivitaHTMLTiedot();
+
+                requestAnimationFrame(
+                    aloitaPeli
+                );
+            }
+
+            requestAnimationFrame(
+                aloitaPeli
+            );
+        </script>
+    </main>
+
+    <footer>
+        <a href="https://zoncuu.github.io/HTML26/">
+            Etusivulle
+        </a>
+    </footer>
+</body>
+</html>

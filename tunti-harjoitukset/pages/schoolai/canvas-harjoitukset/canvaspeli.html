@@ -23,6 +23,8 @@
             height="600">
         </canvas>
 
+        <p>Pisteet: <span id="pisteet">0</span> | Elämät: <span id="elamat">5</span></p>  
+
         <script>
 
             const canvas = document.getElementById("piirtoAlusta");
@@ -82,6 +84,14 @@
 
             let pisteet = 0;
             let elamat = 5;
+
+            const pisteetTeksti = document.getElementById("pisteet");
+            const elamatTeksti = document.getElementById("elamat");
+
+            function paivitaHTMLTiedot() {
+                pisteetTeksti.textContent = pisteet;
+                elamatTeksti.textContent = elamat;
+            }
 
 
             // =========================
@@ -1791,6 +1801,7 @@
 
                 }
 
+                paivitaHTMLTiedot();
 
                 // Seuraava frame
                 requestAnimationFrame(
