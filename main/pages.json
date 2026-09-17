@@ -271,6 +271,12 @@
             "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
         },
         {
+            "title": "Autopeli",
+            "group": "tunti",
+            "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/autopeli.html",
+            "folder": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset"
+        },
+        {
             "title": "Canva-esimerkki",
             "group": "tunti",
             "path": "tunti-harjoitukset/pages/schoolai/canvas-harjoitukset/canvas.html",
